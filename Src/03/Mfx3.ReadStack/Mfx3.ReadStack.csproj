@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mfx3.Shared\Mfx3.Shared.csproj">
+    <ProjectReference Include="..\..\01\Mfx1.Shared\Mfx1.Shared.csproj">
       <Project>{53ABD37E-C485-44BE-A813-C8CE6D360856}</Project>
-      <Name>Mfx3.Shared</Name>
+      <Name>Mfx1.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

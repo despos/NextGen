@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53ABD37E-C485-44BE-A813-C8CE6D360856}</ProjectGuid>
+    <ProjectGuid>{D1BC3A85-0843-43B4-A49E-33CDD2681002}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mfx1.Shared</RootNamespace>
-    <AssemblyName>Mfx1.Shared</AssemblyName>
+    <RootNamespace>Mfx2.CommandStack</RootNamespace>
+    <AssemblyName>Mfx2.CommandStack</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,21 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Memento">
+    <Reference Include="Memento, Version=1.2.0.0, Culture=neutral, PublicKeyToken=bca5f6a4d14d06d8, processorArchitecture=MSIL">
       <HintPath>..\packages\MementoFX.1.2.0\lib\net451\Memento.dll</HintPath>
+    </Reference>
+    <Reference Include="Memento.Messaging.Postie, Version=1.2.3.0, Culture=neutral, PublicKeyToken=75a7fd450051d0c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MementoFX.Messaging.Postie.1.2.3\lib\net451\Memento.Messaging.Postie.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
@@ -61,17 +57,37 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandResponse.cs" />
-    <Compile Include="Events\TaskDeletedEvent.cs" />
-    <Compile Include="Events\TaskUpdatedEvent.cs" />
-    <Compile Include="Events\TaskCreatedEvent.cs" />
-    <Compile Include="MfxHub.cs" />
-    <Compile Include="Status.cs" />
-    <Compile Include="Priority.cs" />
+    <Compile Include="Commands\CantUpdateNotifyCommand.cs" />
+    <Compile Include="Commands\NoUpdatesNotifyCommand.cs" />
+    <Compile Include="Commands\MarkCompletedTaskCommand.cs" />
+    <Compile Include="Commands\RegenerateReadModelCommand.cs" />
+    <Compile Include="Model\Task.cs" />
+    <Compile Include="Commands\DeleteTaskCommand.cs" />
+    <Compile Include="Commands\DeleteTaskNotifyCommand.cs" />
+    <Compile Include="Commands\UpdateTaskNotifyCommand.cs" />
+    <Compile Include="Commands\AddNewTaskNotifyCommand.cs" />
+    <Compile Include="Commands\NotifyCommand.cs" />
+    <Compile Include="Commands\UpdateTaskCommand.cs" />
+    <Compile Include="Commands\AddNewTaskCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sagas\NotificationHandler.cs" />
+    <Compile Include="Sagas\ManageTaskSaga.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Events\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\01\Mfx1.ReadStack\Mfx1.ReadStack.csproj">
+      <Project>{8AC9FF5E-4F17-4F3B-95F8-376EA611E91E}</Project>
+      <Name>Mfx1.ReadStack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01\Mfx1.Shared\Mfx1.Shared.csproj">
+      <Project>{53ABD37E-C485-44BE-A813-C8CE6D360856}</Project>
+      <Name>Mfx1.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
