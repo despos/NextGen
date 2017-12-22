@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53ABD37E-C485-44BE-A813-C8CE6D360856}</ProjectGuid>
+    <ProjectGuid>{CE382720-9C66-4DF7-970F-2BE21B2ACB3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mfx2.Shared</RootNamespace>

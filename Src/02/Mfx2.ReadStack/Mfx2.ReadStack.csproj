@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8AC9FF5E-4F17-4F3B-95F8-376EA611E91E}</ProjectGuid>
+    <ProjectGuid>{15D4E68C-3837-4B6A-B90E-03293E106FB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mfx2.ReadStack</RootNamespace>
