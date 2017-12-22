@@ -139,6 +139,7 @@
     <Content Include="Content\images\favicon.png" />
     <Content Include="Content\images\flags\en-us.png" />
     <Content Include="Content\images\flags\it-it.png" />
+    <Content Include="Content\images\todolist.png" />
     <Content Include="Content\images\ybq-xs.png" />
     <Content Include="Content\scripts\bootstrap-datepicker.min.js" />
     <Content Include="Content\scripts\site\ybq-core.min.js">
