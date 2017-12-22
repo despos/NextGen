@@ -1,0 +1,28 @@
+﻿@model TaskZero.Server.Models.Home.TaskIndexViewModel
+@{
+    var pending = new List<string>();
+    var completed = new List<string>();
+}
+
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#pending" role="tab" data-toggle="tab">
+                PENDING <span class="badge">@pending.Count()</span>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#completed" role="tab" data-toggle="tab">
+                COMPLETED <span class="badge">@completed.Count()</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="pending">
+            @Html.Partial("pv_PendingTasks", pending)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="completed">
+            @Html.Partial("pv_CompletedTasks", completed)
+        </div>
+    </div>
+</div>
