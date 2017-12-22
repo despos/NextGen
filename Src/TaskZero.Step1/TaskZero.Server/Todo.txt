@@ -1,4 +1,9 @@
 ﻿====================
-STEP 1
+TASKZERO.STEP 1
 ====================
-01) 
+
+1) To start off, set the version number of the demo. Open **TaskZeroSettings.cs** and change the **Version** constant to 1.
+
+2) Add the following Nuget packages:
+    MementoFX
+    
