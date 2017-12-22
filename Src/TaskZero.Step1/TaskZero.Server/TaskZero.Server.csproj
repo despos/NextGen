@@ -126,7 +126,7 @@
     <Content Include="Content\styles\ybq-core.css" />
     <Content Include="Content\styles\ybq-core.min.css" />
     <Content Include="Global.asax" />
-    <Content Include="ReadMe.txt" />
+    <Content Include="Todo.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

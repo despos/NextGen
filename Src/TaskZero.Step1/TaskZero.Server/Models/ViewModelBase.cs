@@ -22,7 +22,7 @@ namespace TaskZero.Server.Models
             PageTitle = pageTitle;
         }
 
-        public static ViewModelBase Default(string title = "")
+        public static ViewModelBase Default(string title = "STEP #1")
         {
             var model = new ViewModelBase(title);
             return model;
