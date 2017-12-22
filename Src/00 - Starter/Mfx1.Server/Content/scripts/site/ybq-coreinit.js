@@ -11,11 +11,15 @@
     Ybq.mobilize();
 
     // Enable date picking all the way through
-    $("input[date]").datepicker({
-        format: 'd M yyyy',
-        clearBtn: true,
-        orientation: "bottom left"
-    });
+    try {
+        $("input[date]").datepicker({
+            format: 'd M yyyy',
+            clearBtn: true,
+            orientation: "bottom left"
+        });
+    } catch(e) {
+        
+    };
 
     // Add hyperlink to table rows
     $("tbody tr[data-gotourl]").click(function() {

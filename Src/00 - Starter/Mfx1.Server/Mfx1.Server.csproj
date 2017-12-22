@@ -99,6 +99,7 @@
     <Content Include="Content\images\favicon.png" />
     <Content Include="Content\images\flags\en-us.png" />
     <Content Include="Content\images\flags\it-it.png" />
+    <Content Include="Content\images\taskzero.png" />
     <Content Include="Content\images\ybq-xs.png" />
     <Content Include="Content\scripts\bootstrap-datepicker.min.js" />
     <Content Include="Content\scripts\bootstrap.min.js" />
@@ -126,6 +127,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\AccountService.cs" />
+    <Compile Include="Application\ApplicationServiceBase.cs" />
+    <Compile Include="Application\DashboardService.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\CommandResponse.cs" />
     <Compile Include="Common\Exceptions\InvalidGuidException.cs" />
@@ -134,7 +137,10 @@
     <Compile Include="Common\Security\HttpContextExtensions.cs" />
     <Compile Include="Common\Security\MfxAppPrincipal.cs" />
     <Compile Include="Common\MfxAppSettings.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -171,8 +177,19 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\fonts\FontAwesome.otf" />
-    <Content Include="Content\scripts\site\ybq-core.min.js.map" />
     <None Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\error.cshtml" />
+    <Content Include="Views\Shared\pv_LoggedUser.cshtml" />
+    <Content Include="Views\Shared\pv_UxDebug.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\index.cshtml" />
+    <Content Include="Views\Dashboard\index.cshtml" />
+    <Content Include="Views\Dashboard\pv_CompletedTasks.cshtml" />
+    <Content Include="Views\Dashboard\pv_PendingTasks.cshtml" />
+    <Content Include="Views\Dashboard\pv_TaskDashboard.cshtml" />
+    <Content Include="Views\Account\login.cshtml" />
+    <Content Include="Views\Account\recover.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
