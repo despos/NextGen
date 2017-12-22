@@ -7,7 +7,6 @@
 //
 
 using System;
-using Memento;
 using Mfx1.Shared;
 
 namespace Mfx1.CommandStack.Commands

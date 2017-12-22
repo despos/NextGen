@@ -1,4 +1,12 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////
+//
+// Youbiquitous YBQ : app starter 
+// Copyright (c) Youbiquitous srls 2017
+//
+// Author: Dino Esposito (http://youbiquitous.net)
+//
+
+using System;
 using Memento.Messaging;
 using Memento.Messaging.Postie;
 using Memento.Messaging.Postie.Unity;
@@ -18,7 +26,7 @@ namespace Mfx1.Server
             container.RegisterType(typeof(IBus), busType);
             container.RegisterType(typeof(IEventDispatcher), busType);
             container.RegisterType<IRepository, Repository>(new InjectionConstructor(eventStoreType));
-            container.RegisterType(typeof(IEventStore), 
+            container.RegisterType(typeof(IEventStore),
                 eventStoreType,
                 new InjectionConstructor(typeof(IEventDispatcher)));
 
