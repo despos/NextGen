@@ -1,0 +1,32 @@
+﻿@model MfxDemo3.Models.ViewModelBase
+
+<div class="col-xs-12 col-md-10 col-md-offset-1">
+    <h2 class="hidden-xs text-center">ADMIN TASKS</h2>
+    <hr/>
+    <a role="button" class="btn btn-danger btn-lg" href="@Url.Action("index", "dashboard")">
+        <i class="fa fa-table"></i>
+        dashboard
+    </a>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-2">
+            <a role="button" 
+               class="btn btn-primary btn-block btn-lg margin-top-xs" 
+               href="@Url.Action("ConfigEncrypt", "admin")">
+                PROTECT web.config
+            </a>
+            <br/>
+            <a role="button" 
+               class="btn btn-primary btn-block btn-lg margin-top-xs" 
+               href="@Url.Action("ConfigDecrypt", "admin")">
+                unPROTECT web.config
+            </a>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <a role="button"
+               class="btn btn-primary btn-block btn-lg margin-top-xs"
+               href="@Url.Action("readmodel", "admin")">
+                REGENERATE
+            </a>
+        </div>   
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿@using MfxDemo2.Resources
+<!DOCTYPE html>
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECOVER</title>
+    <link href="~/content/styles/font-awesome.min.css" rel="stylesheet" type="text/css" /> <!-- Fixes input icon placement -->
+    <link href="~/content/styles/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/content/styles/ybq-core.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/content/styles/site/ybqapp-login.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/content/scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/content/scripts/site/ybq-core.min.js?v=1"></script>
+</head>
+    <body class="login-body">
+        <div>
+            <div class="login-subtitle hidden-xs">
+                <a href="@Url.Action("index", "home")">YBQ&diams;APP</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3" style="margin-top: 20px;">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="login-box-header">@Strings_UI.Account_RecoverPassword</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="alert alert-info noshow" id="recover-form-message">
+                            </div>
+                            <form id="recover-form" class="form-horizontal" role="form" method="post" action="@Url.Action("recover", "account")">
+                                <div style="padding: 5px 0 15px">@Strings_UI.Account_EnterEmailToRecoverPassword</div>
+                                <div class="form-group has-feedback" id="recover-form-group-email">
+                                    <div class="col-xs-12">
+                                        <input type="email" class="form-control" 
+                                               id="email" name="email"
+                                               autocomplete="new-email"
+                                               required
+                                               maxlength="50"
+                                               placeholder="@Strings_UI.Account_EnterYourEmail">
+                                        <i class="fa fa-envelope form-control-feedback"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 30px">
+                                    <div class="col-xs-offset-2 col-xs-8">
+                                        <button type="button" id="recover-form-submit-button"
+                                                class="btn btn-primary btn-block">
+                                            @Strings_Menu.ResetPassword
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer text-center">
+                            <span class="text-muted">
+                                @Strings_Core.System_NotImplementedYet
+                            </span>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="~/content/scripts/site/ybq-coreinit.js"></script>
+    </body>
+</html>
+
+<script type="text/javascript">
+    $("#recover-form-submit-button").click(function () {
+        if (Ybq.canAcceptValueOf("#recover-form",
+                "email",
+                function (input) { return input.length > 0 },
+                "@Strings_UI.Account_EnterYourName")) {
+            Ybq.postForm("#recover-form",
+                function (data) {
+                    var response = JSON.parse(data);
+                    if (response.Success) {
+                        window.location.href = response.RedirectUrl;
+                    }
+                });
+        } else {
+            Ybq.clearFormAfterTimeout("#recover-form");
+        }
+    });
+</script>
