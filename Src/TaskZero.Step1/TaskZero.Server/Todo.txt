@@ -78,4 +78,6 @@ namespace TaskZero.Server
 
     using Microsoft.Practices.Unity;
 
-    7) 
+    7) Create a folder **Commands** in the **TaskZero.CommandStack** project.
+
+    8) Create a couple of C# files in the folder: **NotifyCommand.cs** and **AddNewTaskCommand.cs**. Make sure you import all references. In particular, you need to reference **Memento** and **TaskZero.Shared**.
