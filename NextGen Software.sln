@@ -7,12 +7,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{FA07E34A-060
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01", "01", "{79416935-342B-4385-AFF6-28797FB66B66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MfxDemo1", "..\..\Others\MementoFx\MfxDemo1\MfxDemo1\MfxDemo1.csproj", "{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{79416935-342B-4385-AFF6-28797FB66B66} = {FA07E34A-0604-4346-B392-04427D4BB1FB}
+		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13} = {79416935-342B-4385-AFF6-28797FB66B66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3579DF24-A338-41DB-8E9D-2C6DF2352018}
