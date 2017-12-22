@@ -106,9 +106,13 @@
     <Content Include="Content\scripts\jquery-3.1.1.min.js" />
     <Content Include="Content\scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Content\scripts\site\ybq-core.js" />
-    <Content Include="Content\scripts\site\ybq-core.min.js" />
+    <Content Include="Content\scripts\site\ybq-core.min.js">
+      <DependentUpon>ybq-core.js</DependentUpon>
+    </Content>
     <Content Include="Content\scripts\site\ybq-coreinit.js" />
-    <Content Include="Content\scripts\site\ybq-coreinit.min.js" />
+    <Content Include="Content\scripts\site\ybq-coreinit.min.js">
+      <DependentUpon>ybq-coreinit.js</DependentUpon>
+    </Content>
     <Content Include="Content\scripts\typeahead.bundle.min.js" />
     <Content Include="Content\styles\bootstrap-datepicker.min.css" />
     <Content Include="Content\styles\bootstrap.min.css" />
@@ -144,6 +148,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\LoginInputModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\Home\TaskIndexViewModel.cs" />
@@ -177,6 +182,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <None Include="bundleconfig.json" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\error.cshtml" />

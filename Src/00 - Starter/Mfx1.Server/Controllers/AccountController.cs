@@ -27,9 +27,9 @@ namespace Mfx1.Server.Controllers
         /// </summary>
         /// <returns>Redirect</returns>
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(LoginInputModel input)
         {
-            var model = ViewModelBase.Default();
+            var model = new LoginViewModel(input);
             return View(model);
         }
 

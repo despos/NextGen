@@ -34,12 +34,12 @@ namespace Mfx1.Server
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            var exception = Server.GetLastError();
+            //var exception = Server.GetLastError();
 
-            var httpContext = ((HttpApplication)sender).Context;
-            httpContext.Response.Clear();
-            httpContext.ClearError();
-            InvokeErrorAction(httpContext, exception);
+            //var httpContext = ((HttpApplication)sender).Context;
+            //httpContext.Response.Clear();
+            //httpContext.ClearError();
+            //InvokeErrorAction(httpContext, exception);
         }
 
 

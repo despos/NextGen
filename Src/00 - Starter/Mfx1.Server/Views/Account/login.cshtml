@@ -1,4 +1,5 @@
-﻿@using Mfx1.Server.Resources
+﻿@model Mfx1.Server.Models.Account.LoginViewModel
+@using Mfx1.Server.Resources
 <!DOCTYPE html>
 @{
     Layout = null;
@@ -36,7 +37,7 @@
                     <form class="form-horizontal" id="login-form"
                           role="form" method="post"
                           action="@Url.Action("auth", "account")">
-                        <input type="hidden" name="returnurl" />
+                        <input type="hidden" name="returnurl" value="@Model.Input.ReturnUrl" />
                         <div class="form-group has-feedback" id="login-form-group-username">
                             <div class="col-xs-12">
                                 <input type="text" class="form-control text-lowercase"
