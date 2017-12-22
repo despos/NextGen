@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01", "01", "{79416935-342B-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MfxDemo1", "..\..\Others\MementoFx\MfxDemo1\MfxDemo1\MfxDemo1.csproj", "{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfx1.Shared", "..\..\Others\MementoFx\MfxDemo1\Mfx1.Shared\Mfx1.Shared.csproj", "{53ABD37E-C485-44BE-A813-C8CE6D360856}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53ABD37E-C485-44BE-A813-C8CE6D360856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53ABD37E-C485-44BE-A813-C8CE6D360856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53ABD37E-C485-44BE-A813-C8CE6D360856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53ABD37E-C485-44BE-A813-C8CE6D360856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -26,6 +32,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{79416935-342B-4385-AFF6-28797FB66B66} = {FA07E34A-0604-4346-B392-04427D4BB1FB}
 		{46CE6BD2-8136-4A2F-9591-43BBA41E2D13} = {79416935-342B-4385-AFF6-28797FB66B66}
+		{53ABD37E-C485-44BE-A813-C8CE6D360856} = {79416935-342B-4385-AFF6-28797FB66B66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3579DF24-A338-41DB-8E9D-2C6DF2352018}
