@@ -1,3 +1,4 @@
 PURPOSE
 ===========
-Use this project to start building MementoFX examples as described in Step1, Step2 and Step3.
+
+Use this project to start building **MementoFX** examples as described in _Step1_, _Step2_ and _Step3_.
