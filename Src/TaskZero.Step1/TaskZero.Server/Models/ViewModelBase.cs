@@ -14,7 +14,7 @@ namespace TaskZero.Server.Models
 {
     public class ViewModelBase
     {
-        protected ViewModelBase(string pageTitle = "")
+        protected ViewModelBase(string pageTitle = "STEP #1")
         {
             Settings = TaskZeroApplication.AppSettings;
             if (pageTitle.IsNullOrWhitespace())
