@@ -80,4 +80,54 @@ namespace TaskZero.Server
 
     7) Create a folder **Commands** in the **TaskZero.CommandStack** project.
 
-    8) Create a couple of C# files in the folder: **NotifyCommand.cs** and **AddNewTaskCommand.cs**. Make sure you import all references. In particular, you need to reference **Memento** and **TaskZero.Shared**.
+    8) Create a C# file in the folder: **NotifyCommand.cs**. Make sure you import all references. In particular, you need to reference **Memento**.
+
+    using Memento;
+
+    namespace TaskZero.CommandStack.Commands
+    {
+    public class NotifyCommand : Command
+    {
+    public NotifyCommand(string connectionId = "")
+    {
+    SignalrConnectionId = connectionId;
+    }
+
+    public string SignalrConnectionId { get; }
+    }
+    }
+
+    9) Create a C# file in the folder: **AddNewTaskCommand.cs**. In particular, you need to reference **TaskZero.Shared**.
+
+    using System;
+    using TaskZero.Shared;
+
+    namespace TaskZero.CommandStack.Commands
+    {
+    public class AddNewTaskCommand : NotifyCommand
+    {
+    public AddNewTaskCommand(string title,
+    string description,
+    DateTime? dueDate,
+    Priority priority,
+    string connectionId) : base(connectionId)
+    {
+    Title = title;
+    Description = description;
+    DueDate = dueDate;
+    Priority = priority;
+    }
+
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime? DueDate { get; set; }
+    public Priority Priority { get; set; }
+    }
+    }
+
+    10) Create **TaskCreatedEvent** in **TaskZero.Shared**
+
+    11) Create a folder **Model** in the **TaskZero.CommandStack** project and create a **Task.cs** file in it.
+
+
+
