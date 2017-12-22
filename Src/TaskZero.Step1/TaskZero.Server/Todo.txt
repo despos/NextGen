@@ -4,6 +4,78 @@ TASKZERO.STEP 1
 
 1) To start off, set the version number of the demo. Open **TaskZeroSettings.cs** and change the **Version** constant to 1.
 
-2) Add the following Nuget packages:
+2) Add the following Nuget packages on the TaskZero.Server project
     MementoFX
+    MementoFX.Persistence.MongoDB
+    MementoFX.Messaging.Postie
+    MementoFX.Messaging.Postie.Unity
+
+3) Now let's set up the framework at the start of the application. Create a new file **MementoStartup.cs** in the root of the project and copy the C# code below in it.
+
+using System;
+using Memento.Messaging;
+using Memento.Messaging.Postie;
+using Memento.Messaging.Postie.Unity;
+using Memento.Persistence;
+using Microsoft.Practices.Unity;
+
+namespace TaskZero.Server
+{
+    public class MementoStartup
+    {
+        public static UnityContainer UnityConfig(Type busType, Type eventStoreType)
+        {
+            var container = new UnityContainer();
+            container.RegisterType<ITypeResolver, UnityTypeResolver>
+    (new InjectionConstructor(container));
+    container.RegisterType(typeof(IBus), busType);
+    container.RegisterType(typeof(IEventDispatcher), busType);
+    container.RegisterType<IRepository, Repository>
+        (new InjectionConstructor(eventStoreType));
+        container.RegisterType(typeof(IEventStore),
+        eventStoreType,
+        new InjectionConstructor(typeof(IEventDispatcher)));
+
+        return container;
+        }
+
+        public static UnityContainer UnityConfig<TBus, TEventStore>
+            ()
+            {
+            var container = new UnityContainer();
+
+            container.RegisterType<ITypeResolver, UnityTypeResolver>
+                (new InjectionConstructor(container));
+                container.RegisterType(typeof(IBus), typeof(TBus));
+                container.RegisterType(typeof(IEventDispatcher), typeof(TBus));
+                container.RegisterType<IRepository, Repository>
+                    (new InjectionConstructor(typeof(TEventStore)));
+                    container.RegisterType(typeof(IEventStore), typeof(TEventStore),
+                    new InjectionConstructor(typeof(IEventDispatcher)));
+
+                    return container;
+                    }
+                    }
+                    }
     
+    4) Add the following properties to the **global.asax.cs** class
+    
+       public static IBus Bus { get; private set; }
+       public static IRepository AggregateRepository { get; private set; }
+
+    5) Add the following code at the end of Application_Start in **global.asax.cs**. This code will initialize the MementoFX framework.
+
+    // Configure the MementoFX
+    var container = MementoStartup.UnityConfig<InMemoryBus, MongoDbEventStore>();
+
+    // Save global references to the FX core elements
+    Bus = container.Resolve<IBus>();
+    AggregateRepository = container.Resolve<IRepository>();
+    
+    // Add sagas and handlers to the bus
+
+    6) Import all namespaces and make sure you also have 
+
+    using Microsoft.Practices.Unity;
+
+    7) 

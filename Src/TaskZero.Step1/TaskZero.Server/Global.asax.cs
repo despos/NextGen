@@ -12,14 +12,20 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Expoware.Youbiquitous.Mvc.Filters;
+using Memento.Messaging.Postie;
+using Memento.Persistence;
+using Memento.Persistence.MongoDB;
 using TaskZero.Server.Common;
 using TaskZero.Server.Common.Security;
 using TaskZero.Server.Controllers;
+using Microsoft.Practices.Unity;
 
 namespace TaskZero.Server
 {
     public class TaskZeroApplication : System.Web.HttpApplication
     {
+        public static IBus Bus { get; private set; }
+        public static IRepository AggregateRepository { get; private set; }
         public static TaskZeroSettings AppSettings { get; private set; }
 
         protected void Application_Start()
@@ -29,6 +35,15 @@ namespace TaskZero.Server
 
             // Load configuration data
             AppSettings = TaskZeroSettings.Initialize();
+
+            // Configure the MementoFX
+            var container = MementoStartup.UnityConfig<InMemoryBus, MongoDbEventStore>();
+
+            // Save global references to the FX core elements
+            Bus = container.Resolve<IBus>();
+            AggregateRepository = container.Resolve<IRepository>();
+
+            // Add sagas and handlers to the bus
         }
 
         protected void Application_Error(object sender, EventArgs e)
