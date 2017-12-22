@@ -14,15 +14,15 @@ namespace TaskZero.Server.Models
 {
     public class ViewModelBase
     {
-        protected ViewModelBase(string pageTitle = "STEP #1")
+        protected ViewModelBase(string pageTitle = "")
         {
             Settings = TaskZeroApplication.AppSettings;
-            if (pageTitle.IsNullOrWhitespace())
-                pageTitle = Settings.ApplicationTitle;
-            PageTitle = pageTitle;
+            PageTitle = pageTitle.IsNullOrWhitespace()
+                ? Settings.ApplicationTitle
+                : pageTitle;
         }
 
-        public static ViewModelBase Default(string title = "STEP #1")
+        public static ViewModelBase Default(string title = "")
         {
             var model = new ViewModelBase(title);
             return model;
@@ -30,6 +30,6 @@ namespace TaskZero.Server.Models
 
         public string PageTitle { get; set; }
 
-        public TaskZeroSettings Settings { get; private set; }
+        public TaskZeroSettings Settings { get; }
     }
 }

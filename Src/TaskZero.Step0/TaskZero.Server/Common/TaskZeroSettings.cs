@@ -21,6 +21,8 @@ namespace TaskZero.Server.Common
             CultureManager = CultureManager.Empty();
         }
 
+        public const string Version = "0";
+
         /// <summary>
         /// Application title
         /// </summary>
@@ -43,14 +45,13 @@ namespace TaskZero.Server.Common
 
         public static TaskZeroSettings Initialize()
         {
-            var titleBase0 = ConfigurationManager.AppSettings["sk:app-title-base0"] ?? String.Empty;
             var shouldShowErrorDetails = (ConfigurationManager.AppSettings["sk:show-error-details"] ?? "false").ToBool();
             var appLevel = (ConfigurationManager.AppSettings["sk:app-tier"] ?? "0").ToInt();
             var cultures = ConfigurationManager.AppSettings["sk:app-supported-cultures"] ?? String.Empty;
 
             var settings = new TaskZeroSettings
             {
-                ApplicationTitle = String.Format("{0}", titleBase0),
+                ApplicationTitle = String.Format("STEP {0}", Version),
                 ShouldShowErrorDetails = shouldShowErrorDetails,
                 ApplicationTier = appLevel,
                 CultureManager = CultureManager.Import(cultures)

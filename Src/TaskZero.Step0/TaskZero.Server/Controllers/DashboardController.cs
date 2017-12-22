@@ -20,7 +20,6 @@ namespace TaskZero.Server.Controllers
         public ActionResult Index()
         {
             var model = _service.GetTaskIndexViewModel();
-            model.PageTitle = "Step #1";
             return View(model);
         }
 

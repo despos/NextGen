@@ -17,9 +17,9 @@ namespace TaskZero.Server.Models
         protected ViewModelBase(string pageTitle = "")
         {
             Settings = TaskZeroApplication.AppSettings;
-            if (pageTitle.IsNullOrWhitespace())
-                pageTitle = Settings.ApplicationTitle;
-            PageTitle = pageTitle;
+            PageTitle = pageTitle.IsNullOrWhitespace() 
+                ? Settings.ApplicationTitle 
+                : pageTitle;
         }
 
         public static ViewModelBase Default(string title = "")
@@ -30,6 +30,6 @@ namespace TaskZero.Server.Models
 
         public string PageTitle { get; set; }
 
-        public TaskZeroSettings Settings { get; private set; }
+        public TaskZeroSettings Settings { get; }
     }
 }
