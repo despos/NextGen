@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Expoware.Youbiquitous, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\youbiquitous-lib.1.0.2\lib\net45\Expoware.Youbiquitous.dll</HintPath>
+    </Reference>
+    <Reference Include="Expoware.Youbiquitous.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\youbiquitous-mvc-lib.1.1.2\lib\net45\Expoware.Youbiquitous.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -89,18 +95,83 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\images\favicon.png" />
+    <Content Include="Content\images\flags\en-us.png" />
+    <Content Include="Content\images\flags\it-it.png" />
+    <Content Include="Content\images\ybq-xs.png" />
+    <Content Include="Content\scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Content\scripts\bootstrap.min.js" />
+    <Content Include="Content\scripts\jquery-3.1.1.min.js" />
+    <Content Include="Content\scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Content\scripts\site\ybq-core.js" />
+    <Content Include="Content\scripts\site\ybq-core.min.js" />
+    <Content Include="Content\scripts\site\ybq-coreinit.js" />
+    <Content Include="Content\scripts\site\ybq-coreinit.min.js" />
+    <Content Include="Content\scripts\typeahead.bundle.min.js" />
+    <Content Include="Content\styles\bootstrap-datepicker.min.css" />
+    <Content Include="Content\styles\bootstrap.min.css" />
+    <Content Include="Content\styles\font-awesome.min.css" />
+    <Content Include="Content\styles\site\ybqapp-login.css" />
+    <Content Include="Content\styles\site\ybqapp-login.min.css" />
+    <Content Include="Content\styles\site\ybqapp-site.css" />
+    <Content Include="Content\styles\site\ybqapp-site.min.css" />
+    <Content Include="Content\styles\typeahead.css" />
+    <Content Include="Content\styles\typeahead.min.css" />
+    <Content Include="Content\styles\ybq-core.css" />
+    <Content Include="Content\styles\ybq-core.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="ReadMe.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\AccountService.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\CommandResponse.cs" />
+    <Compile Include="Common\Exceptions\InvalidGuidException.cs" />
+    <Compile Include="Common\Exceptions\MfxAppException.cs" />
+    <Compile Include="Common\Security\AppAuthentication.cs" />
+    <Compile Include="Common\Security\HttpContextExtensions.cs" />
+    <Compile Include="Common\Security\MfxAppPrincipal.cs" />
+    <Compile Include="Common\MfxAppSettings.cs" />
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\LoginInputModel.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\Home\TaskIndexViewModel.cs" />
+    <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Strings_Core.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings_Core.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Strings_Errors.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings_Errors.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Strings_Menu.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings_Menu.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Strings_UI.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings_UI.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\scripts\site\ybq-core.min.js.map" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -110,9 +181,31 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+    <Folder Include="Common\Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mfx1.Shared\Mfx1.Shared.csproj">
+      <Project>{5FF22EDF-C2CE-450D-8B76-4EE6E7968337}</Project>
+      <Name>Mfx1.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Strings_Core.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings_Core.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings_Errors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings_Errors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings_Menu.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings_Menu.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings_UI.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings_UI.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

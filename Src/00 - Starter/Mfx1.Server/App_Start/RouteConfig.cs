@@ -1,7 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿///////////////////////////////////////////////////////////////////
+//
+// NEXT-GEN demos
+// Copyright (c) Youbiquitous srls 2018
+//
+// Author: Dino Esposito (http://youbiquitous.net)
+//
+
+
 using System.Web.Mvc;
 using System.Web.Routing;
 
