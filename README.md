@@ -8,4 +8,4 @@ Here’s a list of crucial keywords: *events*, *micro-services*, *business proce
 
 ***
 
-_MementoFX_ is an application framework supporting the development of *time travelling* (TT) applications. A TT application is an application that uses events as the sole form of storage and builds any state and view out of events. TT is because at any time you can bring the time of the application back to a different day and see how it was. See https://github.com/MementoFX/MementoFX. 
+**MementoFX** is an application framework supporting the development of *time travelling* (TT) applications. A TT application is an application that uses events as the sole form of storage and builds any state and view out of events. TT is because at any time you can bring the time of the application back to a different day and see how it was. See https://github.com/MementoFX/MementoFX. 
