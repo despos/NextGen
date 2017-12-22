@@ -3,7 +3,8 @@ using Memento.Messaging;
 using Memento.Messaging.Postie;
 using Memento.Messaging.Postie.Unity;
 using Memento.Persistence;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Injection;
 
 namespace Mfx1.Server
 {

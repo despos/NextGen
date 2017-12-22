@@ -10,6 +10,7 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Unity;
 using Expoware.Youbiquitous.Mvc.Filters;
 using Memento.Messaging.Postie;
 using Memento.Persistence;
@@ -19,7 +20,6 @@ using Mfx1.ReadStack.Denormalizers;
 using Mfx1.Server.Common;
 using Mfx1.Server.Common.Security;
 using Mfx1.Server.Controllers;
-using Microsoft.Practices.Unity;
 
 namespace Mfx1.Server
 {
@@ -53,12 +53,12 @@ namespace Mfx1.Server
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            //var exception = Server.GetLastError();
+            var exception = Server.GetLastError();
 
-            //var httpContext = ((HttpApplication)sender).Context;
-            //httpContext.Response.Clear();
-            //httpContext.ClearError();
-            //InvokeErrorAction(httpContext, exception);
+            var httpContext = ((HttpApplication)sender).Context;
+            httpContext.Response.Clear();
+            httpContext.ClearError();
+            InvokeErrorAction(httpContext, exception);
         }
 
 

@@ -31,11 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Memento, Version=1.2.0.0, Culture=neutral, PublicKeyToken=bca5f6a4d14d06d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\MementoFX.1.2.0\lib\net451\Memento.dll</HintPath>
+    <Reference Include="Memento">
+      <HintPath>..\..\02\Mfx2.Server\Bin\Memento.dll</HintPath>
     </Reference>
-    <Reference Include="Memento.Messaging.Postie, Version=1.2.3.0, Culture=neutral, PublicKeyToken=75a7fd450051d0c2, processorArchitecture=MSIL">
-      <HintPath>..\packages\MementoFX.Messaging.Postie.1.2.3\lib\net451\Memento.Messaging.Postie.dll</HintPath>
+    <Reference Include="Memento.Messaging.Postie">
+      <HintPath>..\..\02\Mfx2.Server\Bin\Memento.Messaging.Postie.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -76,6 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
