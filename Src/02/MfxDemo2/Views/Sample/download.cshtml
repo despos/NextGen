@@ -1,0 +1,19 @@
+﻿ @model MfxDemo2.Models.Sample.DownloadViewModel
+
+<i>Refresh the page and verify that thread IDs can be different before and after the async code.</i>
+<table class="table table-condensed" style="font-size: 3rem">
+    <thead>
+    <tr>
+        <td><b>THREAD ID :: </b> BEFORE</td>
+        <td><b>ELAPSED</b></td>
+        <td><b>THREAD ID :: </b> AFTER</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr style="color: blue">
+        <td>@Model.BeforeThread</td>
+        <td>@Model.Elapsed ms</td>
+        <td>@Model.AfterThread</td>
+    </tr>
+    </tbody>
+</table>
