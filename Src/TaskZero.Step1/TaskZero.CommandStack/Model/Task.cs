@@ -9,6 +9,7 @@
 using System;
 using Memento.Domain;
 using TaskZero.Shared;
+using TaskZero.Shared.Events;
 
 namespace TaskZero.CommandStack.Model
 {
