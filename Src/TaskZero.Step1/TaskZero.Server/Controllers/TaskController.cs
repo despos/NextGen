@@ -9,7 +9,7 @@
 using System;
 using System.Web.Mvc;
 using TaskZero.Server.Application;
-using TaskZero.Server.Common.Exceptions;
+using TaskZero.Server.Models.Task;
 using TaskZero.Shared;
 
 namespace TaskZero.Server.Controllers

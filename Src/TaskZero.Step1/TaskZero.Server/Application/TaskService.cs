@@ -6,10 +6,8 @@
 // Author: Dino Esposito (http://youbiquitous.net)
 //
 
-using System;
-using Memento;
 using Memento.Messaging.Postie;
-using TaskZero.Server.Models.Home;
+using TaskZero.CommandStack.Commands;
 using TaskZero.Server.Models.Task;
 
 namespace TaskZero.Server.Application

@@ -275,5 +275,93 @@ namespace TaskZero.Server.Models.Task
     }
 }
 
-17) Add a new service class in Application folder: **TaskService.cs**
+15) Add a new service class in Application folder: **TaskService.cs**. Reference CommandStack.
+
+using Memento.Messaging.Postie;
+using TaskZero.CommandStack.Commands;
+using TaskZero.Server.Models.Task;
+
+namespace TaskZero.Server.Application
+{
+    public class TaskService : ApplicationServiceBase
+    {
+        public TaskService(IBus bus) : base(bus)
+        {
+        }
+
+
+        #region QUERY methods
+        public TaskViewModel GetDefaultTask()
+        {
+            var model = new TaskViewModel();
+            return model;
+        }
+        #endregion
+
+
+        #region COMMAND methods
+        public void QueueAddOrSaveTask(TaskInputModel input)
+        {
+            var command = new AddNewTaskCommand(
+                input.Title,
+                input.Description,
+                input.DueDate,
+                input.Priority,
+                input.SignalrConnectionId);
+            Bus.Send(command);
+        }
+        #endregion
+    }
+}
+
+16) Add **TaskController.cs**
+
+using System;
+using System.Web.Mvc;
+using TaskZero.Server.Application;
+using TaskZero.Server.Models.Task;
+using TaskZero.Shared;
+
+namespace TaskZero.Server.Controllers
+{
+    [Authorize]
+    public class TaskController : AppController 
+    {
+        private readonly TaskService _service = new TaskService(TaskZeroApplication.Bus);
+
+        #region ADD TASK
+        [HttpGet]
+        public ActionResult New()
+        {
+            var model = _service.GetDefaultTask();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Save(TaskInputModel input)
+        {
+            // If it doesn't crash a serious bus has the message
+            // in store and will eventually deliver it.
+            // To update the UI, you should actually wait for 
+            // the operation to complete. It's only started here.
+            try
+            {
+                _service.QueueAddOrSaveTask(input);
+            }
+            catch (Exception exception)
+            {
+                return HandleException(exception);
+            }
+
+            // Message delivered
+            var response = new CommandResponse(true)
+                .SetPartial()
+                .AddMessage("Delivered");
+            return Json(response);
+        }
+        #endregion
+    }
+}
+
+17) Create a **Task** folder in Views and add **new.cshtml** in it.
 
