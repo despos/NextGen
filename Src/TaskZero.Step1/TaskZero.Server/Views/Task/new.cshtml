@@ -5,16 +5,15 @@
     <link href="~/content/styles/typeahead.min.css" rel="stylesheet" type="text/css" />
 }
 @section adhoc_Scripts_Top {
-    @*<script src="~/content/scripts/typeahead.bundle.min.js"></script>*@
     <script src="~/content/scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
         $(function() {
             // Reference the auto-generated proxy for the hub.  
-            var mfxHub = $.connection.mfxHub;
+            var taskZeroHub = $.connection.taskZeroHub;
 
             // Define client-side endpoints for the mfxHub
-            mfxHub.client.notifyResultOfAddNewTask = function (taskId, title) {
+            taskZeroHub.client.notifyResultOfAddNewTask = function (taskId, title) {
                 var msg = "Task [" + title + "] created successfully.";
                 Ybq.toast("#task-form-message", msg, true);
             };
@@ -99,7 +98,7 @@
         if (Ybq.canAcceptValueOf("#task-form",
             "title",
             function (input) { return input.length > 0; },
-            "Must be ")) {
+            "Title is mandatory")) {
             Ybq.postForm("#task-form",
                 function(data) {
                     //var response = JSON.parse(data);

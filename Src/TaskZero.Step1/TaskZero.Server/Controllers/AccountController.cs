@@ -15,6 +15,7 @@ using TaskZero.Server.Common.Security;
 using TaskZero.Server.Models;
 using TaskZero.Server.Models.Account;
 using TaskZero.Server.Resources;
+using TaskZero.Shared;
 
 namespace TaskZero.Server.Controllers
 {
