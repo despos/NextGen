@@ -6,18 +6,19 @@
 // Author: Dino Esposito (http://youbiquitous.net)
 //
 
-using System.Collections.Generic;
+
+using System.Data.Entity;
 using TaskZero.ReadStack.ReadModel;
 
-namespace TaskZero.Server.Models.Home
+namespace TaskZero.ReadStack.Repositories
 {
-    public class TaskIndexViewModel : ViewModelBase
+    public class TaskContext : DbContext
     {
-        public TaskIndexViewModel()
+        public TaskContext()
+            : base("MfxDemoDb")
         {
-            Tasks = new List<PendingTask>();
         }
 
-        public IList<PendingTask> Tasks { get; set; }
+        public DbSet<PendingTask> PendingTasks { get; set; }
     }
 }

@@ -1,6 +1,50 @@
-﻿@model IList<string>
+﻿@using Expoware.Youbiquitous.Extensions
+@using TaskZero.Server.Common.Extensions
+@model IList<TaskZero.ReadStack.ReadModel.PendingTask>
 
 @if (!Model.Any())
 {
     <h4 class="text-muted">No completed tasks found</h4>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <td style="width: 10px"></td>
+            <td>TASK</td>
+            <td>DUE DATE</td>
+            <td>STARTED</td>
+            <td>COMPLETED</td>
+        </tr>
+        </thead>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td style="background: @task.ToColor(task.Priority)"></td>
+                <td>
+                    <strong>@task.Title</strong><br />
+                    <small>@task.Description.ToDefault("N/A")</small>
+                </td>
+                <td>
+                    @Html.Raw(task.DueDate.HasValue
+                        ? task.DueDate.Value.ToString("d MMM yyyy")
+                        : "<small class='text-muted'>N/A</small>")
+                </td>
+                <td>
+                    @Html.Raw(task.StartDate.HasValue
+                        ? task.StartDate.Value.ToString("d MMM yyyy")
+                        : "<small class='text-muted'>N/A</small>")
+                </td>
+                <td>
+                    @Html.Raw(task.CompletionDate.HasValue
+                        ? task.CompletionDate.Value.ToString("d MMM yyyy")
+                        : "<small class='text-muted'>N/A</small>")
+                    <div class="text-primary">
+                        @task.EffortForDisplay()
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
 }

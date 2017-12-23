@@ -181,7 +181,7 @@
     <Content Include="Content\styles\ybq-core.css" />
     <Content Include="Content\styles\ybq-core.min.css" />
     <Content Include="Global.asax" />
-    <Content Include="Todo.txt" />
+    <Content Include="Todo1 - Create.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +192,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\Exceptions\InvalidGuidException.cs" />
     <Compile Include="Common\Exceptions\TaskZeroException.cs" />
+    <Compile Include="Common\Extensions\PendingTaskExtensions.cs" />
     <Compile Include="Common\Security\AppAuthentication.cs" />
     <Compile Include="Common\Security\HttpContextExtensions.cs" />
     <Compile Include="Common\Security\TaskZeroPrincipal.cs" />
@@ -264,13 +265,15 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TaskZero.CommandStack\TaskZero.CommandStack.csproj">
       <Project>{4E2E0EEC-E1D7-4F2F-BF23-6D1AB777FDE3}</Project>
       <Name>TaskZero.CommandStack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskZero.ReadStack\TaskZero.ReadStack.csproj">
+      <Project>{28C03F97-E0CC-492B-B6E1-A959ED33CF4B}</Project>
+      <Name>TaskZero.ReadStack</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaskZero.Shared\TaskZero.Shared.csproj">
       <Project>{5FF22EDF-C2CE-450D-8B76-4EE6E7968337}</Project>

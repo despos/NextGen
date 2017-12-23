@@ -423,9 +423,6 @@ namespace TaskZero.Shared
 @model TaskZero.Server.Models.Task.TaskViewModel
 @using TaskZero.Server.Resources
 
-@section adhoc_Css {
-    <link href="~/content/styles/typeahead.min.css" rel="stylesheet" type="text/css" />
-}
 @section adhoc_Scripts_Top {
     <script src="~/content/scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
@@ -434,7 +431,7 @@ namespace TaskZero.Shared
             // Reference the auto-generated proxy for the hub.  
             var taskZeroHub = $.connection.taskZeroHub;
 
-            // Define client-side endpoints for the mfxHub
+            // Define client-side endpoints for the taskZeroHub
             taskZeroHub.client.notifyResultOfAddNewTask = function (taskId, title) {
                 var msg = "Task [" + title + "] created successfully.";
                 Ybq.toast("#task-form-message", msg, true);
@@ -597,3 +594,343 @@ namespace TaskZero.CommandStack.Sagas
 Bus.RegisterSaga<ManageTaskSaga>();
 Bus.RegisterSaga<NotificationHandler>();
 
+23) Try running the demo and adding a task. If you have Robo3T installed to explore MongoDB content, you should see a mfxEventStore database on localhost:27017 and under it a TaskCreatedEvent collection.
+
+24) Now let's proceed to create a read model that reflects the state of the system. Let's start adding Entity Framework 6.x Nuget to **TaskZero.ReadStack**.
+Feel free to remove **app.config**. Note that you need to incorporate part of its content in the **web.config** file of the main server project. However, this has been done already in the parent web.config. So it's already there.
+
+25) Create a **ReadModel** folder in **TaskZero.ReadStack** project and add **dto.cs** to it.
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TaskZero.ReadStack.ReadModel
+{
+    public class Dto
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int Id { get; set; } 
+    }
+}
+
+26) Add a **PendingTask.cs** file to the **ReadModel** folder in **TaskZero.ReadStack** project. Make sure you reference Shared.
+
+using System;
+using TaskZero.Shared;
+
+namespace TaskZero.ReadStack.ReadModel
+{
+    public class PendingTask : Dto
+    {
+        public Guid TaskId { get; set; }
+
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime? DueDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public Priority Priority { get; set; }
+        public Status Status { get; set; }
+    }
+}
+
+27) Create a **Repositories** folder in **ReadStack** and add **TaskContext.cs**.
+
+using System.Data.Entity;
+using TaskZero.ReadStack.ReadModel;
+
+namespace TaskZero.ReadStack.Repositories
+{
+    public class TaskContext : DbContext
+    {
+        public TaskContext()
+            : base("MfxDemoDb")
+        {
+        }
+
+        public DbSet<PendingTask> PendingTasks { get; set; }
+    }
+}
+
+28) In the same **Repositories** folder also create a **ProjectionManager.cs** file.
+
+
+using System;
+using System.Linq;
+using TaskZero.ReadStack.ReadModel;
+
+namespace TaskZero.ReadStack.Repositories
+{
+    public class ProjectionManager : IDisposable
+    {
+        private readonly TaskContext _context = null;
+
+        public ProjectionManager()
+        {
+            _context = new TaskContext();
+            _context.Configuration.AutoDetectChangesEnabled = false;
+        }
+
+        public IQueryable<PendingTask> PendingTasks => _context.PendingTasks;
+
+        public void Dispose()
+        {
+            _context?.Dispose();
+        }
+
+        public PendingTask FindById(Guid id)
+        {
+            var task = (from t in PendingTasks where t.TaskId == id select t).SingleOrDefault();
+            return task;
+        }
+    }
+}
+
+29) Create a **Denormalizers** folder in **ReadStack** and add **ManageTaskDenormalizer.cs**. Make sure you reference MementoFX and Memento.Messaging.Postie.
+
+using Memento.Messaging.Postie;
+using TaskZero.ReadStack.ReadModel;
+using TaskZero.ReadStack.Repositories;
+using TaskZero.Shared;
+using TaskZero.Shared.Events;
+
+namespace TaskZero.ReadStack.Denormalizers
+{
+    public class ManageTaskDenormalizer :
+        IHandleMessages<TaskCreatedEvent> 
+    {
+        public void Handle(TaskCreatedEvent message)
+        {
+            var task = new PendingTask
+            {
+                TaskId = message.TaskId,
+                Title = message.Title,
+                Description = message.Description,
+                DueDate = message.DueDate,
+                Priority = message.Priority,
+                Status = Status.ToDo        // Default status for new tasks (by design)
+            };
+
+            using (var context = new TaskContext())
+            {
+                context.PendingTasks.Add(task);
+                context.SaveChanges();
+            }
+        }
+    }
+}
+
+30) In **global.asax.cs** append the following line to **Application_Start**. You need to reference ReadModel.
+
+Bus.RegisterHandler<ManageTaskDenormalizer>();
+
+31) Open again **TaskIndexViewModel.cs** in Models/Home in the main project. Edit as below:
+
+using System.Collections.Generic;
+using TaskZero.ReadStack.ReadModel;
+
+namespace TaskZero.Server.Models.Home
+{
+    public class TaskIndexViewModel : ViewModelBase
+    {
+        public TaskIndexViewModel()
+        {
+            Tasks = new List<PendingTask>();
+        }
+
+        public IList<PendingTask> Tasks { get; set; }
+    }
+}
+
+32) Open **DashboardService.cs** in Application and edit as below.
+
+public class DashboardService : ApplicationServiceBase
+    {
+        private readonly ProjectionManager _manager = new ProjectionManager();
+
+        public DashboardService(IBus bus) : base(bus)
+        {
+        }
+
+        public TaskIndexViewModel GetTaskIndexViewModel()
+        {
+            var model = new TaskIndexViewModel
+            {
+                Tasks = (from t in _manager.PendingTasks select t).ToList()
+            };
+            return model;
+        }
+    }
+
+33) In the main server project, create a new folder **Extensions** under Common. Add the following file **PendingTaskExtensions.cs**.
+
+
+using System;
+using TaskZero.ReadStack.ReadModel;
+using TaskZero.Shared;
+
+namespace TaskZero.Server.Common.Extensions
+{
+    public static class PendingTaskExtensions  
+    {
+        public static string ToColor(this PendingTask pendingTask, Priority priority)
+        {
+            switch (priority)
+            {
+                case Priority.Urgent:
+                    return "#f00";
+                case Priority.High:
+                    return "#f80";
+                case Priority.Normal:
+                    return "#0c0";
+                case Priority.Low:
+                    return "#0f8";
+                default:
+                    return "transparent";
+            }
+        }
+
+        public static DateTime DueDateForDisplay(this PendingTask pendingTask)
+        {
+            return pendingTask.DueDate ?? DateTime.MaxValue;
+        }
+
+        public static string EffortForDisplay(this PendingTask pendingTask)
+        {
+            var effort = "";
+            if (pendingTask.Status == Status.Completed)
+            {
+                if (pendingTask.StartDate.HasValue && pendingTask.CompletionDate.HasValue)
+                {
+                    var ts = pendingTask.CompletionDate.Value - pendingTask.StartDate.Value;
+                    if (ts.Days <= 0)
+                        return "Less than a day";
+                    effort = String.Format("{0} day(s)", ts.Days);
+                }
+            }
+            return effort;
+        }
+    }
+}
+
+
+34) Open **pv_TaskDashboard.cshtml** in Views/Dashboard. Add the following directive:
+
+@using TaskZero.Server.Common.Extensions
+
+Replace the code in the subsequent @{ ... } block with:
+
+@{
+    var pending = (from t in Model.Tasks
+                   where t.Status != Status.Completed
+                   orderby t.DueDateForDisplay()
+                   select t).ToList();
+    var completed = (from t in Model.Tasks
+                     where t.Status == Status.Completed
+                     orderby t.DueDate descending
+                     select t).ToList();
+}
+
+35) Open **pv_PendingTasks.cshtml** in Views/Dashboard. Replace the @model directive with:
+
+@model IList<TaskZero.ReadStack.ReadModel.PendingTask>
+
+Append the following code
+
+else
+{
+    <table class="table table-responsive table-hover hand">
+        <thead>
+        <tr>
+            <td style="width: 10px"></td>
+            <td>TASK</td>
+            <td>STATUS</td>
+            <td>DUE DATE</td>
+            <td>&nbsp;</td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td style="background: @task.ToColor(task.Priority)"></td>
+                <td>
+                    <strong>@task.Title</strong><br />
+                    <small>@task.Description.ToDefault("N/A")</small>
+                </td>
+                <td>@task.Status</td>
+                <td>
+                    @Html.Raw(task.DueDate.HasValue
+                        ? task.DueDate.Value.ToString("d MMM yyyy")
+                        : "<small class='text-muted'>N/A</small>")
+                </td>
+                <td>
+                    @*<a role="button" class="btn btn-primary"
+                               href="@Url.Action("edit", "task", new {id = task.TaskId})">
+                                <i class="fa fa-fw fa-edit"></i>
+                            </a>*@
+                    <button class="btn btn-danger">
+                        <i class="fa fa-fw fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+
+36) Open **pv_CompletedTasks.cshtml** in Views/Dashboard. Replace the @model directive with:
+
+@model IList<TaskZero.ReadStack.ReadModel.PendingTask>
+
+Append the following code
+
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <td style="width: 10px"></td>
+                <td>TASK</td>
+                <td>DUE DATE</td>
+                <td>STARTED</td>
+                <td>COMPLETED</td>
+            </tr>
+        </thead>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td style="background: @task.ToColor(task.Priority)"></td>
+                <td>
+                    <strong>@task.Title</strong><br />
+                    <small>@task.Description.ToDefault("N/A")</small>
+                </td>
+                <td>
+                    @Html.Raw(task.DueDate.HasValue
+                        ? task.DueDate.Value.ToString("d MMM yyyy")
+                        : "<small class='text-muted'>N/A</small>")
+                </td>
+                <td>
+                    @Html.Raw(task.StartDate.HasValue
+                        ? task.StartDate.Value.ToString("d MMM yyyy")
+                        : "<small class='text-muted'>N/A</small>")
+                </td>
+                <td>
+                    @Html.Raw(task.CompletionDate.HasValue
+                        ? task.CompletionDate.Value.ToString("d MMM yyyy")
+                        : "<small class='text-muted'>N/A</small>")
+                    <div class="text-primary">
+                        @task.EffortForDisplay()
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+37) Make sure you have EntityFramework.dll and EntityFramework.SqlServer.dll in the Bin folder of the server project.
+If you may already have a copy of the mfx_ReadModel SQL Server database, delete it for a fresh start of the demo. 
+Now try running the app and creating a new task.
