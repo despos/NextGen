@@ -165,9 +165,9 @@
   <ItemGroup>
     <Compile Include="Application\AccountService.cs" />
     <Compile Include="Application\ApplicationServiceBase.cs" />
+    <Compile Include="Application\TaskService.cs" />
     <Compile Include="Application\DashboardService.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Common\CommandResponse.cs" />
     <Compile Include="Common\Exceptions\InvalidGuidException.cs" />
     <Compile Include="Common\Exceptions\TaskZeroException.cs" />
     <Compile Include="Common\Security\AppAuthentication.cs" />
@@ -178,6 +178,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,6 +187,8 @@
     <Compile Include="Models\Account\LoginInputModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\Home\TaskIndexViewModel.cs" />
+    <Compile Include="Models\Task\TaskInputModel.cs" />
+    <Compile Include="Models\Task\TaskViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Strings_Core.Designer.cs">

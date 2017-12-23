@@ -212,5 +212,68 @@ namespace TaskZero.CommandStack.Model
     add new task ...
 </a>
 
-13) Add a new controller: **TaskController.cs**
+13) Open **Application/ApplicationServiceBase.cs** and replace the content with the following:
+
+using Memento.Messaging.Postie;
+
+namespace TaskZero.Server.Application
+{
+    public class ApplicationServiceBase
+    {
+        public ApplicationServiceBase(IBus bus)
+        {
+            Bus = bus;
+        }
+        public IBus Bus { get; }
+    }
+}
+
+Because of this change, add a new constructor to **DashboardService.cs**
+
+public DashboardService(IBus bus) : base(bus)
+{
+}
+
+Edit the initialization of the DashboardService instance in **dashboardcontroller.cs**
+
+private readonly DashboardService _service = new DashboardService(TaskZeroApplication.Bus);
+
+14) Add a new folder **Task** in **Models** and create in it **TaskInputModel.cs**
+
+using System;
+using TaskZero.Shared;
+
+namespace TaskZero.Server.Models.Task
+{
+    public class TaskInputModel  
+    {
+        public TaskInputModel()
+        {
+            DueDate = null;
+            Priority = Priority.NotSet;
+            Status = Status.ToDo;
+        }
+
+        public Guid TaskId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime? DueDate { get; set; }
+        public Priority Priority { get; set; }
+        public Status Status { get; set; }
+
+        public string SignalrConnectionId { get; set; }
+    }
+}
+
+In the same folder, also create **TaskViewModel.cs**
+
+namespace TaskZero.Server.Models.Task
+{
+    public class TaskViewModel : ViewModelBase
+    {
+        
+    }
+}
+
+17) Add a new service class in Application folder: **TaskService.cs**
 

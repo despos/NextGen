@@ -15,12 +15,11 @@ namespace TaskZero.Server.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private readonly DashboardService _service = new DashboardService();
+        private readonly DashboardService _service = new DashboardService(TaskZeroApplication.Bus);
 
         public ActionResult Index()
         {
             var model = _service.GetTaskIndexViewModel();
-            model.PageTitle = "Step #1";
             return View(model);
         }
 

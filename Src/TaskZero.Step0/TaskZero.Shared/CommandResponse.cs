@@ -16,10 +16,11 @@ namespace TaskZero.Shared
         public static CommandResponse Ok = new CommandResponse(true);
         public static CommandResponse Fail = new CommandResponse();
 
-        public CommandResponse(bool success = false, string message = "")
+        public CommandResponse(bool success = false, string message = "", bool partial = false)
         {
             Success = success;
             Message = message;
+            IsPartial = partial;
             RedirectUrl = String.Empty;
         }
 
@@ -28,6 +29,7 @@ namespace TaskZero.Shared
         public string Key { get; private set; }
         public string ExtraData { get; private set; }
         public string RedirectUrl { get; private set; }
+        public bool IsPartial { get; private set; }
 
         public CommandResponse AddMessage(string message)
         {
@@ -50,6 +52,12 @@ namespace TaskZero.Shared
         public CommandResponse AddExtra(string data)
         {
             ExtraData = data;
+            return this;
+        }
+
+        public CommandResponse SetPartial()
+        {
+            IsPartial = true;
             return this;
         }
     }
