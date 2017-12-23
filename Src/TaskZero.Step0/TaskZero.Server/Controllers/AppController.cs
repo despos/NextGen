@@ -15,6 +15,7 @@ using TaskZero.Server.Common;
 using TaskZero.Server.Common.Exceptions;
 using TaskZero.Server.Models;
 using TaskZero.Server.Resources;
+using TaskZero.Shared;
 
 namespace TaskZero.Server.Controllers
 {

@@ -134,7 +134,6 @@
     <Compile Include="Application\ApplicationServiceBase.cs" />
     <Compile Include="Application\DashboardService.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Common\CommandResponse.cs" />
     <Compile Include="Common\Exceptions\InvalidGuidException.cs" />
     <Compile Include="Common\Exceptions\TaskZeroException.cs" />
     <Compile Include="Common\Security\AppAuthentication.cs" />
