@@ -19,6 +19,7 @@ using TaskZero.Server.Common;
 using TaskZero.Server.Common.Security;
 using TaskZero.Server.Controllers;
 using Microsoft.Practices.Unity;
+using TaskZero.CommandStack.Sagas;
 
 namespace TaskZero.Server
 {
@@ -44,16 +45,18 @@ namespace TaskZero.Server
             AggregateRepository = container.Resolve<IRepository>();
 
             // Add sagas and handlers to the bus
+            Bus.RegisterSaga<ManageTaskSaga>();
+            Bus.RegisterHandler<NotificationHandler>();
         }
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            //var exception = Server.GetLastError();
+            var exception = Server.GetLastError();
 
-            //var httpContext = ((HttpApplication)sender).Context;
-            //httpContext.Response.Clear();
-            //httpContext.ClearError();
-            //InvokeErrorAction(httpContext, exception);
+            var httpContext = ((HttpApplication)sender).Context;
+            httpContext.Response.Clear();
+            httpContext.ClearError();
+            InvokeErrorAction(httpContext, exception);
         }
 
 

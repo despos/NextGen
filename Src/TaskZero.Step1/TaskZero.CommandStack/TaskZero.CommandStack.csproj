@@ -34,14 +34,21 @@
     <Reference Include="Memento, Version=1.2.0.0, Culture=neutral, PublicKeyToken=bca5f6a4d14d06d8, processorArchitecture=MSIL">
       <HintPath>..\packages\MementoFX.1.2.0\lib\net451\Memento.dll</HintPath>
     </Reference>
+    <Reference Include="Memento.Messaging.Postie, Version=1.2.3.0, Culture=neutral, PublicKeyToken=75a7fd450051d0c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MementoFX.Messaging.Postie.1.2.3\lib\net451\Memento.Messaging.Postie.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AddNewTaskCommand.cs" />
+    <Compile Include="Commands\AddNewTaskNotifyCommand.cs" />
     <Compile Include="Commands\NotifyCommand.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sagas\ManageTaskSaga.cs" />
+    <Compile Include="Sagas\NotificationHandler.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

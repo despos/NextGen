@@ -101,9 +101,9 @@
             "Title is mandatory")) {
             Ybq.postForm("#task-form",
                 function(data) {
-                    //var response = JSON.parse(data);
-                    //Ybq.toast("#task-form-message",
-                    //    response.Message, response.Success, response.IsPartial);
+                    var response = JSON.parse(data);
+                    Ybq.toast("#task-form-message",
+                        response.Message, response.Success, response.IsPartial);
                 });
         } else {
             Ybq.clearFormAfterTimeout("#task-form");
