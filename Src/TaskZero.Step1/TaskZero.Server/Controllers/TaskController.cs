@@ -9,6 +9,7 @@
 using System;
 using System.Web.Mvc;
 using TaskZero.Server.Application;
+using TaskZero.Server.Common.Exceptions;
 using TaskZero.Server.Models.Task;
 using TaskZero.Shared;
 
@@ -50,5 +51,20 @@ namespace TaskZero.Server.Controllers
             return Json(response);
         }
         #endregion
+
+        #region EDIT TASK
+        [HttpGet]
+        public ActionResult Edit(string id) /* to bypass model binding and possible exceptions on GUID */
+        {
+            Guid guid;
+            var outcome = Guid.TryParse(id, out guid);
+            if (!outcome)
+                throw new InvalidGuidException("Could not find specified task");
+
+            var model = _service.GetTask(guid);
+            return View(model);
+        }
+        #endregion
+
     }
 }

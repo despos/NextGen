@@ -15,7 +15,8 @@ using TaskZero.CommandStack.Model;
 namespace TaskZero.CommandStack.Sagas
 {
     public class ManageTaskSaga : Saga,
-        IAmStartedBy<AddNewTaskCommand>
+        IAmStartedBy<AddNewTaskCommand>,
+        IHandleMessages<UpdateTaskCommand>
     {
         public ManageTaskSaga(IBus bus, IEventStore eventStore, IRepository repository)
             : base(bus, eventStore, repository)
@@ -30,6 +31,24 @@ namespace TaskZero.CommandStack.Sagas
 
             // Notify back
             var notification = new AddNewTaskNotifyCommand(message.SignalrConnectionId)
+            {
+                TaskId = task.TaskId,
+                Title = task.Title
+            };
+            Bus.Send(notification);
+        }
+
+        public void Handle(UpdateTaskCommand message)
+        {
+            // Dehydrates all events from event store for given aggregate
+            var task = Repository.GetById<Task>(message.TaskId);
+
+            // Triggers the UPDATE-GENERAL event
+            task.UpdateModel(message.Title, message.Description, message.DueDate, message.Priority, message.Status);
+            Repository.Save(task);
+
+            // Notify back
+            var notification = new UpdateTaskNotifyCommand(message.SignalrConnectionId)
             {
                 TaskId = task.TaskId,
                 Title = task.Title

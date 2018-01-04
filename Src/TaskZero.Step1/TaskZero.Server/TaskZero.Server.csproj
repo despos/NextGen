@@ -258,6 +258,7 @@
     <Content Include="Views\Account\login.cshtml" />
     <Content Include="Views\Account\recover.cshtml" />
     <Content Include="Views\Task\new.cshtml" />
+    <Content Include="Views\Task\edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

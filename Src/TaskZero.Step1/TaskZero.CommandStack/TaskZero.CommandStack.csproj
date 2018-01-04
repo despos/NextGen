@@ -42,6 +42,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\UpdateTaskNotifyCommand.cs" />
+    <Compile Include="Commands\UpdateTaskCommand.cs" />
     <Compile Include="Commands\AddNewTaskCommand.cs" />
     <Compile Include="Commands\AddNewTaskNotifyCommand.cs" />
     <Compile Include="Commands\NotifyCommand.cs" />

@@ -6,6 +6,8 @@
 // Author: Dino Esposito (http://youbiquitous.net)
 //
 
+using System;
+using System.Linq;
 using Memento.Messaging.Postie;
 using TaskZero.ReadStack.ReadModel;
 using TaskZero.ReadStack.Repositories;
@@ -15,7 +17,8 @@ using TaskZero.Shared.Events;
 namespace TaskZero.ReadStack.Denormalizers
 {
     public class ManageTaskDenormalizer :
-        IHandleMessages<TaskCreatedEvent> 
+        IHandleMessages<TaskCreatedEvent>,
+        IHandleMessages<TaskUpdatedEvent>
     {
         public void Handle(TaskCreatedEvent message)
         {
@@ -32,6 +35,36 @@ namespace TaskZero.ReadStack.Denormalizers
             using (var context = new TaskContext())
             {
                 context.PendingTasks.Add(task);
+                context.SaveChanges();
+            }
+        }
+
+        public void Handle(TaskUpdatedEvent message)
+        {
+            using (var context = new TaskContext())
+            {
+                var task = (from t in context.PendingTasks
+                    where t.TaskId == message.TaskId
+                    select t).SingleOrDefault();
+                if (task == null)
+                    return;
+
+                task.Title = message.Title;
+                task.Description = message.Description;
+                task.DueDate = message.DueDate;
+                task.Priority = message.Priority;
+                task.Status = message.Status;
+                if (message.Status == Status.Completed)
+                {
+                    task.CompletionDate = DateTime.Today;
+                }
+                if (message.Status == Status.InProgress &&
+                    task.Status != Status.InProgress)
+                {
+                    task.StartDate = DateTime.Today;
+                    task.CompletionDate = null;
+                }
+
                 context.SaveChanges();
             }
         }

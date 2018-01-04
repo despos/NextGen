@@ -13,13 +13,21 @@ using TaskZero.Shared;
 namespace TaskZero.CommandStack.Sagas
 {
     public class NotificationHandler : 
-        IHandleMessages<AddNewTaskNotifyCommand>
+        IHandleMessages<AddNewTaskNotifyCommand>,
+        IHandleMessages<UpdateTaskNotifyCommand>
     {
         public void Handle(AddNewTaskNotifyCommand message)
         {
             // Notify back
             var hub = new TaskZeroHub(message.SignalrConnectionId);
             hub.NotifyResultOfAddNewTask(message.TaskId, message.Title);
+        }
+
+        public void Handle(UpdateTaskNotifyCommand message)
+        {
+            // Notify back
+            var hub = new TaskZeroHub(message.SignalrConnectionId);
+            hub.NotifyResultOfUpdateTask(message.TaskId, message.Title);
         }
     }
 }

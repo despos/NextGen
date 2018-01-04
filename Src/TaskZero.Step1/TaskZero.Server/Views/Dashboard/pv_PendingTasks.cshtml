@@ -22,7 +22,7 @@ else
         <tbody>
         @foreach (var task in Model)
         {
-            <tr>
+            <tr data-gotourl="/task/edit/@task.TaskId">
                 <td style="background: @task.ToColor(task.Priority)"></td>
                 <td>
                     <strong>@task.Title</strong><br />

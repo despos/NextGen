@@ -45,6 +45,25 @@ namespace TaskZero.CommandStack.Model
             Priority = theEvent.Priority;
         }
 
+        public void ApplyEvent(
+            [AggregateId("TaskId")] TaskUpdatedEvent theEvent)
+        {
+            // No need to change TaskId 
+
+            // Copy values over
+            Title = theEvent.Title;
+            Description = theEvent.Description;
+            DueDate = theEvent.DueDate;
+            Priority = theEvent.Priority;
+            Status = theEvent.Status;
+        }
+
+        public void UpdateModel(string title, string description, DateTime? dueDate, Priority priority, Status status)
+        {
+            var updated = new TaskUpdatedEvent(TaskId, title, description, dueDate, priority, status);
+            RaiseEvent(updated);
+        }
+
         public static class Factory
         {
             public static Task NewTaskFrom(string title, string descrition, DateTime? dueDate = null, Priority priority = Priority.Normal)
