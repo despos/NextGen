@@ -67,6 +67,13 @@ namespace TaskZero.Server.Application
 
             Bus.Send(command);
         }
+
+        public void QueueDeleteTask(Guid id, string signalrConnectionId)
+        {
+            var command = new DeleteTaskCommand(id, signalrConnectionId);
+
+            Bus.Send(command);
+        }
         #endregion
     }
 }

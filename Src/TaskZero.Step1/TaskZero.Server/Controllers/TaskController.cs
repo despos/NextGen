@@ -66,5 +66,29 @@ namespace TaskZero.Server.Controllers
         }
         #endregion
 
+        #region DELETE TASK
+        public ActionResult Delete(string id, string signalrConnectionId)
+        {
+            Guid guid;
+            var outcome = Guid.TryParse(id, out guid);
+            if (!outcome)
+                throw new InvalidGuidException("Could not find specified task");
+
+            try
+            {
+                _service.QueueDeleteTask(guid, signalrConnectionId);
+            }
+            catch (Exception exception)
+            {
+                return HandleException(exception);
+            }
+
+            // Message delivered
+            var response = new CommandResponse(true)
+                .SetPartial()
+                .AddMessage("Delivered");
+            return Json(response);
+        }
+        #endregion
     }
 }

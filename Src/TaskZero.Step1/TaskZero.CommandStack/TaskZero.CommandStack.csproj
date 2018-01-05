@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\DeleteTaskCommand.cs" />
     <Compile Include="Commands\UpdateTaskNotifyCommand.cs" />
     <Compile Include="Commands\UpdateTaskCommand.cs" />
     <Compile Include="Commands\AddNewTaskCommand.cs" />

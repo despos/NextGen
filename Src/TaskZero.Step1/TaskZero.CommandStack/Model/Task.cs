@@ -13,7 +13,10 @@ using TaskZero.Shared.Events;
 
 namespace TaskZero.CommandStack.Model
 {
-    public class Task : Aggregate, IApplyEvent<TaskCreatedEvent>
+    public class Task : Aggregate, 
+        IApplyEvent<TaskCreatedEvent>,
+        IApplyEvent<TaskUpdatedEvent>,
+        IApplyEvent<TaskDeletedEvent>
     {
         public Task()
         {
@@ -58,10 +61,22 @@ namespace TaskZero.CommandStack.Model
             Status = theEvent.Status;
         }
 
+        public void ApplyEvent(
+            [AggregateId("TaskId")] TaskDeletedEvent theEvent)
+        {
+            Deleted = true;
+        }
+
         public void UpdateModel(string title, string description, DateTime? dueDate, Priority priority, Status status)
         {
             var updated = new TaskUpdatedEvent(TaskId, title, description, dueDate, priority, status);
             RaiseEvent(updated);
+        }
+
+        public void MarkAsDeleted()
+        {
+            var deleted = new TaskDeletedEvent(TaskId);
+            RaiseEvent(deleted);
         }
 
         public static class Factory

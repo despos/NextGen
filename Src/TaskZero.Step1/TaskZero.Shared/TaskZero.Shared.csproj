@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="CommandResponse.cs" />
     <Compile Include="Events\TaskCreatedEvent.cs" />
+    <Compile Include="Events\TaskDeletedEvent.cs" />
     <Compile Include="Events\TaskUpdateEvent.cs" />
     <Compile Include="TaskZeroHub.cs" />
     <Compile Include="Priority.cs" />

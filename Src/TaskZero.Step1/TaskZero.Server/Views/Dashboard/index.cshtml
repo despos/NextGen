@@ -19,3 +19,23 @@
     </div>
 </div>
 
+<script>
+    $("button[data-action-delete]").click(function (evt) {
+        evt.stopPropagation();
+        var id = $(this).data("action-delete");
+        if (confirm("Are you sure?")) {
+            var url = "/task/delete/" + id;
+            Ybq.post(url,
+                "",
+                function(response) {
+                    if (response.Success) {
+                        // Refresh list of tasks
+                        Ybq.invoke("/dashboard/tasklist", function(html) {
+                            $("#task-dashboard").html(html);
+                        });
+                    }
+                });
+        }
+    })
+</script>
+

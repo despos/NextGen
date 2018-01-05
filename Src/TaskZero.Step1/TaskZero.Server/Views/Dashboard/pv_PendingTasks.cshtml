@@ -39,7 +39,8 @@ else
                                href="@Url.Action("edit", "task", new {id = task.TaskId})">
                                 <i class="fa fa-fw fa-edit"></i>
                             </a>*@
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger"
+                            data-action-delete="@task.TaskId">
                         <i class="fa fa-fw fa-trash"></i>
                     </button>
                 </td>

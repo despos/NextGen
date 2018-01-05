@@ -16,7 +16,8 @@ namespace TaskZero.CommandStack.Sagas
 {
     public class ManageTaskSaga : Saga,
         IAmStartedBy<AddNewTaskCommand>,
-        IHandleMessages<UpdateTaskCommand>
+        IHandleMessages<UpdateTaskCommand>,
+        IHandleMessages<DeleteTaskCommand>
     {
         public ManageTaskSaga(IBus bus, IEventStore eventStore, IRepository repository)
             : base(bus, eventStore, repository)
@@ -54,6 +55,13 @@ namespace TaskZero.CommandStack.Sagas
                 Title = task.Title
             };
             Bus.Send(notification);
+        }
+
+        public void Handle(DeleteTaskCommand message)
+        {
+            var task = Repository.GetById<Task>(message.TaskId);
+            task.MarkAsDeleted();
+            Repository.Save(task);
         }
     }
 }
