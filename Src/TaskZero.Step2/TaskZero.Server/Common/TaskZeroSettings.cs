@@ -21,7 +21,7 @@ namespace TaskZero.Server.Common
             CultureManager = CultureManager.Empty();
         }
 
-        public const string Version = "1";
+        public const string Version = "2";
 
         /// <summary>
         /// Application title

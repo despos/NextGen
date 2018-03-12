@@ -19,6 +19,18 @@
                 Ybq.toast("#task-form-message", msg, true);
             };
 
+            // No-changes
+            taskZeroHub.client.notifyNoChangesUpdate = function (taskId, title) {
+                var msg = "No changes detected for task <b>[" + title + "]</b>.";
+                Ybq.toast("#task-form-message", msg, true /* success */, true /* partial */);
+            };     
+
+            // Can't update (for whatever reason)
+            taskZeroHub.client.notifyCantUpdate = function (taskId, title) {
+                var msg = "Invalid data for task <b>[" + title + "]</b>.";
+                Ybq.toast("#task-form-message", msg, false /* success */);
+            }; 
+
             // Start the SignalR client-side listener
             $.connection.hub.start().done(function () {
                 $("#signalrConnectionId").val($.connection.hub.id);

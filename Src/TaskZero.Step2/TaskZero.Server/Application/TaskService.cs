@@ -74,6 +74,13 @@ namespace TaskZero.Server.Application
 
             Bus.Send(command);
         }
+
+        public void QueueCompleteTask(Guid id, string signalrConnectionId)
+        {
+            var command = new MarkCompletedTaskCommand(id, signalrConnectionId);
+
+            Bus.Send(command);
+        }
         #endregion
     }
 }

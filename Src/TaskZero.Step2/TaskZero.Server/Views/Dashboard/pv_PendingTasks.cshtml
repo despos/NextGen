@@ -35,13 +35,13 @@ else
                         : "<small class='text-muted'>N/A</small>")
                 </td>
                 <td>
-                    @*<a role="button" class="btn btn-primary"
-                               href="@Url.Action("edit", "task", new {id = task.TaskId})">
-                                <i class="fa fa-fw fa-edit"></i>
-                            </a>*@
                     <button class="btn btn-danger"
                             data-action-delete="@task.TaskId">
                         <i class="fa fa-fw fa-trash"></i>
+                    </button>
+                    <button class="btn btn-success"
+                            data-action-complete="@task.TaskId">
+                        <i class="fa fa-fw fa-check"></i>
                     </button>
                 </td>
             </tr>

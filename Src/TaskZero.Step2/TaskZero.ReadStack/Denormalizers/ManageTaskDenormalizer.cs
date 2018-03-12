@@ -19,7 +19,8 @@ namespace TaskZero.ReadStack.Denormalizers
     public class ManageTaskDenormalizer :
         IHandleMessages<TaskCreatedEvent>,
         IHandleMessages<TaskUpdatedEvent>,
-        IHandleMessages<TaskDeletedEvent>
+        IHandleMessages<TaskDeletedEvent>,
+        IHandleMessages<TaskCompletedEvent>
     {
         public void Handle(TaskCreatedEvent message)
         {
@@ -81,6 +82,24 @@ namespace TaskZero.ReadStack.Denormalizers
                     return;
 
                 context.PendingTasks.Remove(task);
+                context.SaveChanges();
+            }
+        }
+
+        public void Handle(TaskCompletedEvent message)
+        {
+            using (var context = new TaskContext())
+            {
+                var task = (from t in context.PendingTasks
+                    where t.TaskId == message.TaskId
+                    select t).SingleOrDefault();
+                if (task == null)
+                    return;
+
+                task.Status = Status.Completed;
+                task.CompletionDate = message.TimeStamp.Date;
+                if (!task.StartDate.HasValue)
+                    task.StartDate = message.TimeStamp.Date;
                 context.SaveChanges();
             }
         }

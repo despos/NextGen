@@ -90,5 +90,31 @@ namespace TaskZero.Server.Controllers
             return Json(response);
         }
         #endregion
+
+
+        #region COMPLETE TASK
+        public ActionResult Complete(string id, string signalrConnectionId)
+        {
+            Guid guid;
+            var outcome = Guid.TryParse(id, out guid);
+            if (!outcome)
+                throw new InvalidGuidException("Could not find specified task");
+
+            try
+            {
+                _service.QueueCompleteTask(guid, signalrConnectionId);
+            }
+            catch (Exception exception)
+            {
+                return HandleException(exception);
+            }
+
+            // Message delivered
+            var response = new CommandResponse(true)
+                .SetPartial()
+                .AddMessage("Delivered");
+            return Json(response);
+        }
+        #endregion
     }
 }

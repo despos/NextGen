@@ -7,6 +7,7 @@
 //
 
 using System;
+using Expoware.Youbiquitous.Core.Extensions;
 using Memento.Domain;
 using TaskZero.Shared;
 using TaskZero.Shared.Events;
@@ -16,7 +17,8 @@ namespace TaskZero.CommandStack.Model
     public class Task : Aggregate, 
         IApplyEvent<TaskCreatedEvent>,
         IApplyEvent<TaskUpdatedEvent>,
-        IApplyEvent<TaskDeletedEvent>
+        IApplyEvent<TaskDeletedEvent>,
+        IApplyEvent<TaskCompletedEvent>
     {
         public Task()
         {
@@ -67,6 +69,36 @@ namespace TaskZero.CommandStack.Model
             Deleted = true;
         }
 
+        public void ApplyEvent(
+            [AggregateId("TaskId")] TaskCompletedEvent @event)
+        {
+            Status = Status.Completed;
+        }
+
+        #region BEHAVIOR
+
+        public bool IsSameContent(string title, string description, DateTime? dueDate, Priority priority, Status status)
+        {
+            // Compare to current values
+            var utcDueDate = dueDate?.ToUniversalTime();
+            return (Title.EqualsAny(title) &&
+                    Description.EqualsAny(description) &&
+                    DueDate == utcDueDate &&
+                    Priority == priority &&
+                    Status == status);
+        }
+
+        public bool CanUpdate(string title, string description, DateTime? dueDate, Priority priority, Status status)
+        {
+            if (title.IsNullOrWhitespace())
+                return false;
+
+            // For demo purposes only: not on Sundays
+            if (dueDate.HasValue && dueDate.Value.DayOfWeek == DayOfWeek.Sunday)
+                return false;
+            return true;
+        }
+
         public void UpdateModel(string title, string description, DateTime? dueDate, Priority priority, Status status)
         {
             var updated = new TaskUpdatedEvent(TaskId, title, description, dueDate, priority, status);
@@ -78,6 +110,13 @@ namespace TaskZero.CommandStack.Model
             var deleted = new TaskDeletedEvent(TaskId);
             RaiseEvent(deleted);
         }
+
+        public void MarkAsCompleted()
+        {
+            var completed = new TaskCompletedEvent(TaskId);
+            RaiseEvent(completed);
+        }
+        #endregion
 
         public static class Factory
         {

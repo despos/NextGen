@@ -1,8 +1,9 @@
-﻿<div class="jumbotron">
+﻿@using TaskZero.Server.Common
+<div class="jumbotron">
     <h1>
         <img src="~/Content/images/taskzero.png" alt="TaskZero" />
         <span class="opaque-max">TASK</span>&diams;ZERO
-        <sup style="margin-left: 10px;font-size:50%">STEP 1</sup>
+        <sup style="margin-left: 10px;font-size:50%">STEP @TaskZeroSettings.Version</sup>
     </h1>
     <p>
         Sample ASP.NET application created along the guidelines of

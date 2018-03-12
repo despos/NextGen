@@ -39,3 +39,22 @@
     })
 </script>
 
+<script>
+    $("button[data-action-complete]").click(function (evt) {
+        evt.stopPropagation();
+        var id = $(this).data("action-complete");
+        if (confirm("You're going to mark this task as COMPLETE.\nAre you sure?")) {
+            var url = "/task/complete/" + id;
+            Ybq.post(url,
+                "",
+                function (response) {
+                    if (response.Success) {
+                        // Refresh list of tasks
+                        Ybq.invoke("/dashboard/tasklist", function (html) {
+                            $("#task-dashboard").html(html);
+                        });
+                    }
+                });
+        }
+    })
+</script>
