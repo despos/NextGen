@@ -8,3 +8,9 @@ basic CRUD-style operations via _sagas_, _commands_ and _events_. **ASP.NET Sign
 3) Delete an existing task
 
 The sample application follows the CQRS pattern and uses distinct data sources for the command and the query stack. In particular, it uses **MongoDB** as the event store and a plain SQL Server (any version) for the read model.
+
+===
+
+This specific step shows 
+1) How to (try to) regenerate the read model
+2) How to extract the history of a given todo-item
