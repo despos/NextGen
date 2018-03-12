@@ -1,0 +1,157 @@
+﻿@model TaskZero.Server.Models.Task.TaskViewModel
+@using TaskZero.Server.Resources
+
+@section adhoc_Css {
+    @*<link href="~/content/styles/typeahead.min.css" rel="stylesheet" type="text/css" />*@
+}
+@section adhoc_Scripts_Top {
+    @*<script src="~/content/scripts/typeahead.bundle.min.js"></script>*@
+    <script src="~/content/scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function() {
+            // Reference the auto-generated proxy for the hub.
+            var taskZeroHub = $.connection.taskZeroHub;
+
+            // Define client-side endpoints for the taskZeroHub
+            taskZeroHub.client.notifyResultOfUpdateTask = function (taskId, title) {
+                var msg = "Task [" + title + "] updated successfully.";
+                Ybq.toast("#task-form-message", msg, true);
+            };
+
+            // No-changes
+            taskZeroHub.client.notifyNoChangesUpdate = function (taskId, title) {
+                var msg = "No changes detected for task <b>[" + title + "]</b>.";
+                Ybq.toast("#task-form-message", msg, true /* success */, true /* partial */);
+            };     
+
+            // Can't update (for whatever reason)
+            taskZeroHub.client.notifyCantUpdate = function (taskId, title) {
+                var msg = "Invalid data for task <b>[" + title + "]</b>.";
+                Ybq.toast("#task-form-message", msg, false /* success */);
+            }; 
+
+            // Start the SignalR client-side listener
+            $.connection.hub.start().done(function () {
+                $("#signalrConnectionId").val($.connection.hub.id);
+            });
+        });
+    </script>
+}
+@{
+    var dateForDisplay = Model.Task.DueDate.HasValue
+        ? Model.Task.DueDate.Value.ToString("d MMM yyyy")
+        : "";
+}
+<div class="col-xs-12 col-lg-10 col-lg-offset-1">
+    <h2>
+        <a href="@Url.Action("index", "dashboard")"><i class="fa fa-list"></i></a>
+        EDIT TASK <small class="text-muted hidden-xs">@Model.Task.TaskId</small>
+    </h2>
+    <div id="task-form-message" class="alert alert-info" style="display: none;"></div>
+    <div class="margin-top-md">
+        <form class="form-horizontal" id="task-form"
+              role="form" method="post"
+              action="@Url.Action("save", "task")">
+            <!-- ID -->
+            <input type="hidden" name="taskid" value="@Model.Task.TaskId" />
+            <input type="hidden" name="signalrConnectionId" id="signalrConnectionId" />
+            <!-- Title & Priority -->
+            <div class="form-group has-feedback" id="task-form-group-title">
+                <label class="col-xs-12 col-md-8" for="title">Task</label>
+                <label class="col-xs-12 col-md-2" for="priority">Priority</label>
+                <label class="col-xs-12 col-md-2" for="priority">Status</label>
+                <div class="col-xs-12 col-md-8">
+                    <input type="text" class="form-control"
+                           id="title" name="title"
+                           value="@Model.Task.Title"
+                           required
+                           placeholder="Describe what you should be up to"
+                           data-click-on-enter="#task-form-submit-button">
+                    <i class="fa fa-edit form-control-feedback"></i>
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <select name="priority" id="priority" class="form-control">
+                        <option value="0">Not Set</option>
+                        <option value="1">Low</option>
+                        <option value="2">Normal</option>
+                        <option value="3">High</option>
+                        <option value="4">Urgent</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    <select name="status" id="status" class="form-control">
+                        <option value="0">Unknown</option>
+                        <option value="1">To do</option>
+                        <option value="2">In progress</option>
+                        <option value="3">Suspended</option>
+                        <option value="4">Completed</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Description & Due date -->
+            <div class="form-group" id="task-form-group-description">
+                <label class="col-xs-12 col-md-8" for="description">Description</label>
+                <label class="col-xs-12 col-md-4" for="duedate">Due date</label>
+                <div class="col-xs-12 col-md-8">
+                    <textarea class="form-control" rows="5"
+                              name="description" id="description">@Model.Task.Description</textarea>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <input type="text" class="form-control"
+                           id="duedate" name="duedate"
+                           date
+                           value="@dateForDisplay"
+                           placeholder="Due date">
+                    <h4 id="pending-changes" class="margin-top-md bold text-danger" style="display:none">
+                        PENDING CHANGES
+                    </h4>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 30px">
+                <div class="col-xs-offset-2 col-xs-8 col-md-4 col-md-offset-4 text-center">
+                    <button type="button" id="task-form-submit-button"
+                            class="btn btn-primary btn-spaced">
+                        @Strings_Menu.Submit
+                    </button>&nbsp;&nbsp;&nbsp;
+                    <button type="button" id="task-form-delete-button"
+                            class="btn btn-danger btn-spaced"
+                            onclick="alert('NOT IMPLEMENTED YET')">
+                        @Strings_Menu.Delete
+                    </button>
+                    <span id="task-form-loader"
+                          class="text-danger" style="display: none;">
+                        @Strings_Core.System_OperationInProgress
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $("#task-form-submit-button").click(function() {
+        if (Ybq.canAcceptValueOf("#task-form",
+            "title",
+            function (input) { return input.length > 0; },
+            "Must be non empty")) {
+            Ybq.postForm("#task-form",
+                function (data) {
+                    //var response = JSON.parse(data);
+                    //Ybq.toast("#task-form-message",
+                    //    response.Message, response.Success, response.IsPartial);
+                });
+        } else {
+            Ybq.clearFormAfterTimeout("#task-form");
+        }
+    });
+</script>
+<script>
+    $("#priority").val(@((int)Model.Task.Priority));
+</script>
+<script>
+    $("#status").val(@((int)Model.Task.Status));
+</script>
+

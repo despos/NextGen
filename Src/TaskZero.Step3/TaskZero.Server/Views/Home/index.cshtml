@@ -1,0 +1,25 @@
+﻿@using TaskZero.Server.Common
+<div class="jumbotron">
+    <h1>
+        <img src="~/Content/images/taskzero.png" alt="TaskZero" />
+        <span class="opaque-max">TASK</span>&diams;ZERO
+        <sup style="margin-left: 10px;font-size:50%">STEP @TaskZeroSettings.Version</sup>
+    </h1>
+    <p>
+        Sample ASP.NET application created along the guidelines of
+        <a href="http://www.amazon.com/Modern-Web-Development-Understanding-technologies/dp/1509300015/ref=sr_1_3">
+            Modern Web Apps
+        </a>
+        book.
+    </p>
+</div>
+
+<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+    <h4>
+        Log in using any username you wish and a password equal to the username.<br/><b>EX: dino/dino</b>
+    </h4>
+    <br/>
+    <a class="btn btn-primary btn-lg" href="@Url.Action("index", "dashboard")" role="button">
+        START
+    </a>
+</div>
