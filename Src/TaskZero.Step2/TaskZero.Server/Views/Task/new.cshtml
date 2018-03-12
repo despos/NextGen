@@ -1,0 +1,110 @@
+﻿@model TaskZero.Server.Models.Task.TaskViewModel
+@using TaskZero.Server.Resources
+
+@section adhoc_Scripts_Top {
+    <script src="~/content/scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function() {
+            // Reference the auto-generated proxy for the hub.  
+            var taskZeroHub = $.connection.taskZeroHub;
+
+            // Define client-side endpoints for the taskZeroHub
+            taskZeroHub.client.notifyResultOfAddNewTask = function (taskId, title) {
+                var msg = "Task [" + title + "] created successfully.";
+                Ybq.toast("#task-form-message", msg, true);
+            };
+
+            // Start the SignalR client-side listener
+            $.connection.hub.start().done(function() {
+                $("#signalrConnectionId").val($.connection.hub.id);
+            });
+        });
+    </script>
+}
+
+<div class="col-xs-12 col-sm-8 col-md-6 col-xs-offset-0 col-sm-offset-2 col-md-offset-3">  
+    <h2>
+        <a href="@Url.Action("index", "dashboard")"><i class="fa fa-list"></i></a>
+        NEW TASK
+    </h2>
+    <div id="task-form-message" class="alert alert-info" style="display: none;"></div>
+    <div class="margin-top-md">
+        <form class="form-horizontal" id="task-form"
+              role="form" method="post"
+              action="@Url.Action("save", "task")">
+            <!-- ID -->
+            <input type="hidden" name="signalrConnectionId" id="signalrConnectionId" />
+            <!-- Title & Priority -->
+            <div class="form-group has-feedback" id="task-form-group-title">
+                <label class="col-xs-12 col-md-8" for="title">Task</label>
+                <label class="col-xs-12 col-md-4" for="priority">Priority</label>
+                <div class="col-xs-12 col-md-8">
+                    <input type="text" class="form-control"
+                           id="title" name="title"
+                           required
+                           placeholder="Describe what you should be up to"
+                           data-click-on-enter="#task-form-submit-button">
+                    <i class="fa fa-edit form-control-feedback"></i>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <select name="priority" id="priority" class="form-control">
+                        <option value="0">Not Set</option>
+                        <option value="1">Low</option>
+                        <option value="2">Normal</option>
+                        <option value="3">High</option>
+                        <option value="4">Urgent</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Description & Due date -->
+            <div class="form-group" id="task-form-group-description">
+                <label class="col-xs-12 col-md-8" for="description">Description</label>
+                <label class="col-xs-12 col-md-4" for="duedate">Due date</label>
+                <div class="col-xs-12 col-md-8">
+                    <textarea class="form-control" rows="5"
+                              name="description" id="description"></textarea>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <input type="text" class="form-control"
+                           id="duedate" name="duedate"
+                           date
+                           placeholder="Due date">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 30px">
+                <div class="col-xs-offset-2 col-xs-8 col-md-4 col-md-offset-4">
+                    <button type="button" id="task-form-submit-button"
+                            class="btn btn-primary btn-block">
+                        @Strings_Menu.Submit
+                    </button>
+                    <span id="sample-form-loader"
+                          class="text-danger" style="display: none;">
+                        @Strings_Core.System_OperationInProgress
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $("#task-form-submit-button").click(function() {
+        if (Ybq.canAcceptValueOf("#task-form",
+            "title",
+            function (input) { return input.length > 0; },
+            "Title is mandatory")) {
+            Ybq.postForm("#task-form",
+                function(data) {
+                    var response = JSON.parse(data);
+                    //Ybq.toast("#task-form-message",
+                    //    response.Message, response.Success, response.IsPartial);
+                });
+        } else {
+            Ybq.clearFormAfterTimeout("#task-form");
+        }
+    });
+</script>
+
