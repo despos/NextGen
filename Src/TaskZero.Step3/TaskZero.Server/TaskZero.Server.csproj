@@ -191,6 +191,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\Exceptions\InvalidGuidException.cs" />
     <Compile Include="Common\Exceptions\TaskZeroException.cs" />
+    <Compile Include="Common\Extensions\TaskExtensions.cs" />
     <Compile Include="Common\Extensions\PendingTaskExtensions.cs" />
     <Compile Include="Common\Security\AppAuthentication.cs" />
     <Compile Include="Common\Security\HttpContextExtensions.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\Home\TaskIndexViewModel.cs" />
     <Compile Include="Models\Task\TaskInputModel.cs" />
+    <Compile Include="Models\Task\TaskHistoryViewModel.cs" />
     <Compile Include="Models\Task\TaskViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -260,6 +262,7 @@
     <Content Include="Views\Task\new.cshtml" />
     <Content Include="Views\Task\edit.cshtml" />
     <Content Include="Views\Admin\index.cshtml" />
+    <Content Include="Views\Task\history.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

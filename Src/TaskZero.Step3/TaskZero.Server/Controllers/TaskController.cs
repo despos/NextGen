@@ -8,6 +8,7 @@
 
 using System;
 using System.Web.Mvc;
+using TaskZero.CommandStack.Services;
 using TaskZero.Server.Application;
 using TaskZero.Server.Common.Exceptions;
 using TaskZero.Server.Models.Task;
@@ -91,7 +92,6 @@ namespace TaskZero.Server.Controllers
         }
         #endregion
 
-
         #region COMPLETE TASK
         public ActionResult Complete(string id, string signalrConnectionId)
         {
@@ -114,6 +114,25 @@ namespace TaskZero.Server.Controllers
                 .SetPartial()
                 .AddMessage("Delivered");
             return Json(response);
+        }
+        #endregion
+
+        #region HISTORY TASK
+        [HttpGet]
+        public ActionResult History(string id) /* to bypass model binding and possible exceptions on GUID */
+        {
+            Guid guid;
+            var outcome = Guid.TryParse(id, out guid);
+            if (!outcome)
+                throw new InvalidGuidException("Could not find specified task");
+
+            var history = new HistoryService(TaskZeroApplication.EventStore, 
+                TaskZeroApplication.AggregateRepository);
+            var model = new TaskHistoryViewModel
+            {
+                History = history.GetTaskHistory(guid, DateTime.Now)
+            };
+            return View(model);
         }
         #endregion
     }

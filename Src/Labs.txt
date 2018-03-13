@@ -1,5 +1,7 @@
-Lab 1		From scratch to add a TODO item
-Lab 2		From Lab1 to edit an existing TODO item
-Lab 3		From Lab2 to delete an existing TODO item
-Lab 4		Free exercise (no instructions) to ...
-Lab 5		From Lab4 to getting history of a TODO item
+START		Empty app					STEP0
+==========================================================================
+Lab 1		From scratch to add a TODO item			STEP1
+Lab 2		From Lab1 to edit an existing TODO item		STEP1
+Lab 3		From Lab2 to delete an existing TODO item	STEP1
+Lab 4		Free exercise (no instructions) to ...		STEP2
+Lab 5		From Lab4 to getting history of a TODO item	STEP3

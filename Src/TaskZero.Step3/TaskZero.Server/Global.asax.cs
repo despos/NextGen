@@ -28,6 +28,7 @@ namespace TaskZero.Server
     {
         public static IBus Bus { get; private set; }
         public static IRepository AggregateRepository { get; private set; }
+        public static IEventStore EventStore { get; private set; }
         public static TaskZeroSettings AppSettings { get; private set; }
 
         protected void Application_Start()
@@ -44,6 +45,7 @@ namespace TaskZero.Server
             // Save global references to the FX core elements
             Bus = container.Resolve<IBus>();
             AggregateRepository = container.Resolve<IRepository>();
+            EventStore = container.Resolve<IEventStore>();
 
             // Add sagas and handlers to the bus
             Bus.RegisterSaga<ManageTaskSaga>();

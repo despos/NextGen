@@ -1,0 +1,63 @@
+﻿@using Expoware.Youbiquitous.Extensions
+@using TaskZero.Server.Common.Extensions
+@model TaskZero.Server.Models.Task.TaskHistoryViewModel
+
+
+<div class="col-xs-12 col-lg-10 col-lg-offset-1">
+    <h2>
+        <a href="@Url.Action("index", "dashboard")"><i class="fa fa-history"></i></a>
+        HISTORY <small class="text-muted hidden-xs">@Model.History.TaskId</small>
+    </h2>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr class="bold" style="font-size: 120%">
+                <td>ACTION</td>
+                <td style="width: 10px"></td>
+                <td>TASK</td>
+                <td>STATUS</td>
+                <td>DUE DATE</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ev in Model.History.Events)
+            {
+                <tr>
+                    @if (ev.Action == "DELETED" || ev.Action == "COMPLETED")
+                    {
+                        <td>
+                            <b class="text-primary">@ev.Action</b><br />
+                            <small class="text-muted">@ev.When.ToString("d MMM yyyy HH:mm") UTC</small>
+                        </td>
+                        <td colspan="4"></td>
+                    }
+                    else
+                    {
+                        <td>
+                            <b class="text-primary">@ev.Action</b><br />
+                            <small class="text-muted">@ev.When.ToString("d MMM yyyy HH:mm") UTC</small>
+                        </td>
+
+                        <td style="background: @ev.CurrentTask.ToColor(ev.CurrentTask.Priority)"></td>
+                        <td>
+                            @ev.CurrentTask.Title<br />
+                            <small class="text-muted">@ev.CurrentTask.Description</small>
+                        </td>
+                        <td>
+                            @ev.CurrentTask.Status
+                        </td>
+
+                        <td>
+                            @ev.CurrentTask.DueDate.ToStringOrEmpty("d MMM yyyy")
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
