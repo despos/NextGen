@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Memento.Persistence;
 using TaskZero.CommandStack.Model;
 using TaskZero.Shared.Events;
@@ -34,9 +35,9 @@ namespace TaskZero.CommandStack.Services
                 new EventMapping {AggregateIdPropertyName = "TaskId", EventType = typeof (TaskUpdatedEvent)},
             };
 
-            var taskEvents = EventStore.RetrieveEvents(taskId, when.Value, eventMapping, null);
+            var taskEvents = EventStore.RetrieveEvents(taskId, when.Value, eventMapping, null).ToList();
             var transitions = new List<TaskTransition>();
-            foreach (var ev in taskEvents)
+            foreach (var ev in taskEvents.OrderBy(e => e.TimeStamp))
             {
                 var task = Repository.GetById<Task>(taskId, ev.TimeStamp);
                 if (task.DueDate.HasValue)
