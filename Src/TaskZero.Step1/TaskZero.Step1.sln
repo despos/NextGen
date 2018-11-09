@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskZero.ReadStack", "TaskZ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskZero.CommandStack", "TaskZero.CommandStack\TaskZero.CommandStack.csproj", "{4E2E0EEC-E1D7-4F2F-BF23-6D1AB777FDE3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{8CCBDBDC-C8C6-49F7-8BC5-E62F65D6E335}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\mfxsqldb.bacpac = ..\..\..\..\..\mfxsqldb.bacpac
+		..\..\..\..\..\mfxsqldb.sql = ..\..\..\..\..\mfxsqldb.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

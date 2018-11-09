@@ -126,11 +126,12 @@ namespace TaskZero.Server.Controllers
             if (!outcome)
                 throw new InvalidGuidException("Could not find specified task");
 
-            var history = new HistoryService(TaskZeroApplication.EventStore, 
+            var history = new HistoryService(
+                TaskZeroApplication.EventStore, 
                 TaskZeroApplication.AggregateRepository);
             var model = new TaskHistoryViewModel
             {
-                History = history.GetTaskHistory(guid, DateTime.Now)
+                History = history.GetTaskHistory(guid, null) //, DateTime.Today)
             };
             return View(model);
         }

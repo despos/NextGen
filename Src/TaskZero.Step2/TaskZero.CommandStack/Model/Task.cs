@@ -103,6 +103,8 @@ namespace TaskZero.CommandStack.Model
         {
             var updated = new TaskUpdatedEvent(TaskId, title, description, dueDate, priority, status);
             RaiseEvent(updated);
+
+
         }
 
         public void MarkAsDeleted()

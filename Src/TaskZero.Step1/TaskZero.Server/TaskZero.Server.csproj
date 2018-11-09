@@ -277,7 +277,7 @@
     </ProjectReference>
     <ProjectReference Include="..\TaskZero.Shared\TaskZero.Shared.csproj">
       <Project>{5FF22EDF-C2CE-450D-8B76-4EE6E7968337}</Project>
-      <Name>Mfx1.Shared</Name>
+      <Name>TaskZero.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -313,7 +313,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50497</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50497/</IISUrl>
+          <IISUrl>http://localhost:5001/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
